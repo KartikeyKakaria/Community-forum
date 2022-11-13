@@ -1,0 +1,54 @@
+#form{
+    display:flex;
+    justify-content:center;
+    flex-wrap: row;
+    margin:14px;
+    padding:20px;
+    z-index: 1;
+}
+#login-form{
+    text-align:center;
+    background-image:linear-gradient(rgb(95, 92, 92), gray);
+    background-repeat:no-repeat;
+    width:400px;
+    height:245px;
+    padding:12px;
+    border-radius:12px;
+    box-shadow:0 5px 5px black;
+}
+#login-form p{
+    display:inline;
+    font-size:1.5rem;
+}
+#login-form input{
+    display:inline;
+    height:30px;
+    width:220px;
+    margin:5px 10px;
+    border:2px solid black;
+    border-radius:10px;
+    padding:5px;
+}
+#submit{
+    background-color:rgb(56, 55, 55);
+    width:100px;
+    color:white;
+    padding:10px;
+    font-size:1rem;
+    border-radius:4px;
+    cursor:pointer;
+}
+#submit:hover{
+    background-color:rgb(88, 86, 86);
+}
+
+/*code for features side*/
+.ul{
+    height:350px;
+    width:500px;
+    margin:20px 50px;
+    font-size:25px;
+    font-weight:bold;
+    overflow:hidden;
+    word-wrap: break-word;
+}

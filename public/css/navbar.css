@@ -10,7 +10,8 @@ header{
     justify-content:space-between;
     align-items:center;
     padding:30px 10px;
-    background-color:black;
+    background-image:linear-gradient(to right, rgb(50,50,50), black);
+    background-repeat:no-repeat;
 }
 header nav ul{
     text-decoration:none;
@@ -25,4 +26,25 @@ header nav ul li{
 header h1:hover{
     background-color:blue;
     color:cyan;
+}
+nav ul li a{
+    border:0px solid none;
+    border-radius:12px;
+    padding:10px;
+    text-decoration:none;
+    color:black;
+}
+
+nav ul li a:hover{
+    filter:brightness(80%);
+}
+
+#login{
+    background-color:yellow;
+}
+#home{
+    background-color:cyan;
+}
+#register{
+    background-color:orange;
 }

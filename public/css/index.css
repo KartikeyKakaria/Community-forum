@@ -4,5 +4,8 @@
     padding:0;
 }
 body{
-    background-color:gray;
+    background-image:linear-gradient(to bottom left,blue, cyan);
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-size:cover;
 }
