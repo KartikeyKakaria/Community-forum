@@ -7,6 +7,7 @@ const bcrypt = require('bcryptjs')
 const cookieParser = require('cookie-parser');
 const User = require("./models/users")
 const auth = require("./middleware/auth")
+const Topic = require("./models/topics")
 
 // const crud = require("./crud")
 const app = express();
@@ -122,6 +123,12 @@ app.post("/login", async(req, res) => {
     } catch (error) {
         res.status(400).send("invalid login credentials")
     }
+})
+
+//get topics
+app.post("/", async(req, res)=>{
+    const Data = await Topic.find();
+    res.send(Data);
 })
 
 //telling the server that cookie exists or not
