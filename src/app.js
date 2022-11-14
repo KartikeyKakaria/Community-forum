@@ -7,7 +7,8 @@ const bcrypt = require('bcryptjs')
 const cookieParser = require('cookie-parser');
 const User = require("./models/users")
 const auth = require("./middleware/auth")
-const Topic = require("./models/topics")
+const Topic = require("./models/topics");
+const mongoose = require("mongoose");
 
 // const crud = require("./crud")
 const app = express();
@@ -44,7 +45,21 @@ app.get("/user", auth, (req, res) => {
 app.post("/user", auth, (req, res) => {
     res.send(req.user);
 })
+app.get("/topics",(req,res)=>{
+    res.render("topics")
+})
 
+app.get("/topics/:name", async(req, res)=>{
+    const requestedTopicName = req.params.name
+    const TopicData = await Topic.find({name:requestedTopicName})
+    if(TopicData.length>0){
+        res.render("topic",{topic:TopicData[0]})
+    }
+    else{
+        res.send("404 not found")
+    }
+    console.log(TopicData[0], req.params.name)
+})
 //logout user
 app.get("/logout", auth, async(req, res) => {
     try {
