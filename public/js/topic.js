@@ -1,3 +1,19 @@
+function displayQuestions(){
+ 
+    fetch("/getQuestions").then(rep=>rep.json())
+    .then(data=>{
+        data.forEach(element => {
+            const quesUl = document.getElementById("questions");
+            const question = document.createElement("li");
+            question.innerHTML = `<a href="/questions/${element._id}">${element.heading}</a>`;
+            quesUl.appendChild(question);
+            console.log(quesUl, question)
+        });
+
+    })
+    .catch(err=>console.error(err))
+}
+displayQuestions()
 document.getElementById("submit").addEventListener("click",(e)=>{
     e.preventDefault();
     //getting ques details
@@ -17,7 +33,8 @@ document.getElementById("submit").addEventListener("click",(e)=>{
     .then(rep=>rep.json())
     .then(data=>{
         if(data.heading !== undefined){
-            alert("Poste the question successfully")
+            alert("Poste the question successfully");
+            displayQuestions();
         }
         else{
             alert("Couldnt Post the question we are sorry for the inconvenience")

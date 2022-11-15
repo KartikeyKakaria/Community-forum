@@ -49,6 +49,10 @@ app.post("/user", auth, (req, res) => {
 app.get("/topics",(req,res)=>{
     res.render("topics")
 })
+app.get("/getQuestions", async(req,res)=>{
+    const questions = await Question.find();
+    res.send(questions)
+})
 
 app.get("/topics/:name",auth, async(req, res)=>{
     const requestedTopicName = req.params.name
