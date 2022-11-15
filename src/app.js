@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const User = require("./models/users")
 const auth = require("./middleware/auth")
 const Topic = require("./models/topics");
+const Question = require("./models/questions");
 const mongoose = require("mongoose");
 
 // const crud = require("./crud")
