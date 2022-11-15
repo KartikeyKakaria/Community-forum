@@ -50,11 +50,11 @@ app.get("/topics",(req,res)=>{
     res.render("topics")
 })
 
-app.get("/topics/:name", async(req, res)=>{
+app.get("/topics/:name",auth, async(req, res)=>{
     const requestedTopicName = req.params.name
     const TopicData = await Topic.find({name:requestedTopicName})
     if(TopicData.length>0){
-        res.render("topic",{topic:TopicData[0]})
+        res.render("topic",{topic:TopicData[0], user:req.user})
     }
     else{
         res.send("404 not found")
@@ -141,6 +141,21 @@ app.post("/login", async(req, res) => {
     }
 })
 
+
+app.post("/postQues",async(req,res)=>{
+    try{
+        const quesdata = new Question({
+            heading:req.body.heading,
+            description:req.body.desc,
+            userId:req.body.userid,
+            topicId:req.body.topicid,
+        })
+        const result = await quesdata.save();
+        res.send(result)
+    }catch(err){
+        res.status(400).send(err)
+    }
+})
 //get topics
 app.post("/", async(req, res)=>{
     const Data = await Topic.find();

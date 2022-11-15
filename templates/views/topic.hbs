@@ -10,10 +10,20 @@
 </head>
 <body>
     {{>navbar}}
-    <h1> {{topic.name}} </h1>
-    
+    <h1> {{topic.name}}</h1>
+    <br><br>
+    <form id="postQues">
+        <h4>Heading:</h4>
+        <input id="heading" type="text"><br>
+        <h4>Description:</h4>
+        <textarea name="desc" id="desc" cols="30" rows="10"></textarea>
+        <input type="hidden" value={{topic.id}} id="topicid">
+        <input type="hidden" value={{user._id}} id="userid"><br>
+        <button id="submit">Post Question</button>
+    </form>
 </body>
 <script src="../js/index.js"></script>
+<script src="../js/topic.js"></script>
 <script>
     updateNavbar()
 </script>
