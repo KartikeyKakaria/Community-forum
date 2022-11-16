@@ -47,3 +47,16 @@ const cookieExists = function() {
         })
         .catch(err => console.error(err))
 }
+const getUserName = function (id) {
+    const params = {
+        method: 'post',
+        headers: {
+            'Content-type': "application/json"
+        },
+        body: JSON.stringify({ id:id })
+    }
+    return fetch("/getUsername",params)
+    .then(rep=>rep.text())
+    .then(data=>{return data})
+    .catch(err=>{return err})
+}
