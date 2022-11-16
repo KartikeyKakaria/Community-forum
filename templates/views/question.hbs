@@ -10,10 +10,12 @@
 </head>
 <body>
     {{>navbar}}
-    <h1>{{question.heading}}</h1>
-    <p>{{question.description}}</p>
+    <h1 id="heading">{{question.heading}}</h1>
+    <p id="description">{{question.description}}</p>
+    <input type="hidden" value={{question.userId}} id="quesId">
 </body>
 <script src="../js/index.js"></script>
+<script src="../js/question.js"></script>
 <script>
     updateNavbar()
 </script>
