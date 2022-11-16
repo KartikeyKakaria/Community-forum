@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const User = require("./models/users")
 const auth = require("./middleware/auth")
 const Topic = require("./models/topics");
+const Question = require("./models/questions");
 const mongoose = require("mongoose");
 
 // const crud = require("./crud")
@@ -39,29 +40,52 @@ app.get("/register", (req, res) => {
 app.get("/login", (req, res) => {
     res.render("login")
 })
-app.get("/user", auth, (req, res) => {
+app.get("/user", auth.authUser, (req, res) => {
     res.render("user")
 })
-app.post("/user", auth, (req, res) => {
+app.post("/user", auth.authUser, (req, res) => {
     res.send(req.user);
 })
 app.get("/topics",(req,res)=>{
     res.render("topics")
 })
 
+//get question info
+app.get("/getQuestions",auth.authQues, async(req,res)=>{
+    const questions = await Question.find();
+    res.send([questions,req.isUser])
+})
+
+//get user's name by id
+app.post("/getUsername",async(req,res)=>{
+    const userid = req.body.id;
+    const result = await User.find({_id:userid})
+    res.send(result[0].name)
+})
+
+//display pages for each topic
 app.get("/topics/:name", async(req, res)=>{
     const requestedTopicName = req.params.name
     const TopicData = await Topic.find({name:requestedTopicName})
     if(TopicData.length>0){
-        res.render("topic",{topic:TopicData[0]})
+        res.render("topic",{topic:TopicData[0], user:req.user})
     }
     else{
         res.send("404 not found")
     }
-    console.log(TopicData[0], req.params.name)
+    // console.log(TopicData[0], req.params.name)
 })
+
+app.get("/questions/:id", async(req,res)=>{
+    const requestedQuestionId = req.params.id;
+    const QuestionData = await Question.find({_id:requestedQuestionId})
+    if(QuestionData.length>0){
+        res.render("question",{question:QuestionData[0]})
+    }
+})
+
 //logout user
-app.get("/logout", auth, async(req, res) => {
+app.get("/logout", auth.authUser, async(req, res) => {
     try {
         res.clearCookie("jwt")
         req.user.tokens = req.user.tokens.filter((element) => {
@@ -137,6 +161,22 @@ app.post("/login", async(req, res) => {
         }
     } catch (error) {
         res.status(400).send("invalid login credentials")
+    }
+})
+
+//post the question enetere by user
+app.post("/postQues",async(req,res)=>{
+    try{
+        const quesdata = new Question({
+            heading:req.body.heading,
+            description:req.body.desc,
+            userId:req.body.userid,
+            topicId:req.body.topicid,
+        })
+        const result = await quesdata.save();
+        res.send(result)
+    }catch(err){
+        res.status(400).send(err)
     }
 })
 

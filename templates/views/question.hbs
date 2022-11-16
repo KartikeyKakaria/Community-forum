@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{question.heading}}</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+</head>
+<body>
+    {{>navbar}}
+    <h1 id="heading">{{question.heading}}</h1>
+    <p id="description">{{question.description}}</p>
+    <input type="hidden" value={{question.userId}} id="quesId">
+</body>
+<script src="../js/index.js"></script>
+<script src="../js/question.js"></script>
+<script>
+    updateNavbar()
+</script>
+</html>

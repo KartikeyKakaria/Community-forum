@@ -47,4 +47,10 @@ nav ul li a:hover{
 }
 #register{
     background-color:orange;
+} 
+#logout{
+    background-color:lime;
+}
+#user{
+    background-color:pink
 }
