@@ -49,17 +49,21 @@ app.post("/user", auth.authUser, (req, res) => {
 app.get("/topics",(req,res)=>{
     res.render("topics")
 })
+
+//get question info
 app.get("/getQuestions",auth.authQues, async(req,res)=>{
     const questions = await Question.find();
-    console.log(req.isUser)
     res.send([questions,req.isUser])
 })
+
+//get user's name by id
 app.post("/getUsername",async(req,res)=>{
     const userid = req.body.id;
     const result = await User.find({_id:userid})
     res.send(result[0].name)
 })
 
+//display pages for each topic
 app.get("/topics/:name", async(req, res)=>{
     const requestedTopicName = req.params.name
     const TopicData = await Topic.find({name:requestedTopicName})
@@ -71,6 +75,15 @@ app.get("/topics/:name", async(req, res)=>{
     }
     // console.log(TopicData[0], req.params.name)
 })
+
+app.get("/questions/:id", async(req,res)=>{
+    const requestedQuestionId = req.params.id;
+    const QuestionData = await Question.find({_id:requestedQuestionId})
+    if(QuestionData.length>0){
+        res.render("question",{question:QuestionData[0]})
+    }
+})
+
 //logout user
 app.get("/logout", auth.authUser, async(req, res) => {
     try {
@@ -151,7 +164,7 @@ app.post("/login", async(req, res) => {
     }
 })
 
-
+//post the question enetere by user
 app.post("/postQues",async(req,res)=>{
     try{
         const quesdata = new Question({
@@ -166,6 +179,7 @@ app.post("/postQues",async(req,res)=>{
         res.status(400).send(err)
     }
 })
+
 //get topics
 app.post("/", async(req, res)=>{
     const Data = await Topic.find();
