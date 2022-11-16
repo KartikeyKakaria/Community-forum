@@ -2,15 +2,19 @@ function displayQuestions(){
  
     fetch("/getQuestions").then(rep=>rep.json())
     .then(data=>{
-        data.forEach(element => {
-            const quesUl = document.getElementById("questions");
+        const quesUl = document.getElementById("questions");
+        quesUl.innerHTML = "";
+        data[0].forEach(element => {
             const question = document.createElement("li");
             question.innerHTML = `<a href="/questions/${element._id}">${element.heading}</a>`;
             quesUl.appendChild(question);
             console.log(quesUl, question)
         });
-
+        if(!data[1]){
+            document.getElementById("postQues").innerHTML = "Please login to ask questions"
+        }
     })
+    
     .catch(err=>console.error(err))
 }
 displayQuestions()

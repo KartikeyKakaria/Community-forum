@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/users")
 
-const auth = async(req, res, next) => {
+const auth ={
+    authUser : async(req, res, next) => {
     try {
         const token = req.cookies.jwt;
         const verifyUser = jwt.verify(token, process.env.SECRET_KEY);
@@ -15,5 +16,19 @@ const auth = async(req, res, next) => {
     } catch (error) {
         res.status(400).send(error)
     }
+},
+authQues : async(req, res, next) => {
+    try {
+        const token = req.cookies.jwt;
+        req.isUser = false;
+        if(token !== undefined){
+            req.isUser = true;
+        }
+        
+        next();
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
 }
 module.exports = auth;

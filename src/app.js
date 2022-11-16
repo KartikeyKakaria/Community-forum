@@ -40,21 +40,22 @@ app.get("/register", (req, res) => {
 app.get("/login", (req, res) => {
     res.render("login")
 })
-app.get("/user", auth, (req, res) => {
+app.get("/user", auth.authUser, (req, res) => {
     res.render("user")
 })
-app.post("/user", auth, (req, res) => {
+app.post("/user", auth.authUser, (req, res) => {
     res.send(req.user);
 })
 app.get("/topics",(req,res)=>{
     res.render("topics")
 })
-app.get("/getQuestions", async(req,res)=>{
+app.get("/getQuestions",auth.authQues, async(req,res)=>{
     const questions = await Question.find();
-    res.send(questions)
+    console.log(req.isUser)
+    res.send([questions,req.isUser])
 })
 
-app.get("/topics/:name",auth, async(req, res)=>{
+app.get("/topics/:name", async(req, res)=>{
     const requestedTopicName = req.params.name
     const TopicData = await Topic.find({name:requestedTopicName})
     if(TopicData.length>0){
@@ -63,10 +64,10 @@ app.get("/topics/:name",auth, async(req, res)=>{
     else{
         res.send("404 not found")
     }
-    console.log(TopicData[0], req.params.name)
+    // console.log(TopicData[0], req.params.name)
 })
 //logout user
-app.get("/logout", auth, async(req, res) => {
+app.get("/logout", auth.authUser, async(req, res) => {
     try {
         res.clearCookie("jwt")
         req.user.tokens = req.user.tokens.filter((element) => {
