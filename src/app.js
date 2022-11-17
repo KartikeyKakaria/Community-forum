@@ -9,6 +9,7 @@ const User = require("./models/users")
 const auth = require("./middleware/auth")
 const Topic = require("./models/topics");
 const Question = require("./models/questions");
+const Answer = require("./models/answer");
 const mongoose = require("mongoose");
 
 // const crud = require("./crud")

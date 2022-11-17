@@ -13,6 +13,11 @@
     <h1 id="heading">{{question.heading}}</h1>
     <p id="description">{{question.description}}</p>
     <input type="hidden" value={{question.userId}} id="quesId">
+
+    <div id="form">
+        <textarea name="answer" id="answer" cols="30" rows="10"></textarea>
+        <button id="submit">Answer</button>
+    </div>
 </body>
 <script src="../js/index.js"></script>
 <script src="../js/question.js"></script>
