@@ -10,6 +10,7 @@ const auth = require("./middleware/auth")
 const Topic = require("./models/topics");
 const Question = require("./models/questions");
 const Answer = require("./models/answer");
+const jwt=require("jsonwebtoken")
 const mongoose = require("mongoose");
 
 // const crud = require("./crud")
@@ -179,6 +180,24 @@ app.post("/postQues",async(req,res)=>{
     }catch(err){
         res.status(400).send(err)
     }
+})
+
+
+//post the answer given by user
+app.post("/postAnswer",async(req,res)=>{
+    const answer = req.body;
+    const token = req.cookies.jwt;
+    const verifyuser = jwt.verify(token, process.env.SECRET_KEY);
+    answer.userId = verifyuser._id;
+    const postAnswer = new Answer({
+        description:answer.answer,
+        userId:answer.userId,
+        quesId:answer.quesId,
+        upvotes:0,
+        downvotes:0,
+    })
+    const result = await postAnswer.save();
+    res.send(result);
 })
 
 //get topics

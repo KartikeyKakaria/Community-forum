@@ -1,7 +1,8 @@
 function displayQuestions() {
-
+    
     fetch("/getQuestions").then(rep => rep.json())
-        .then(data => {
+    .then(data => {
+        console.log("hello")
             const quesUl = document.getElementById("questions");
             quesUl.innerHTML = "";
             data[0].forEach(async(element) => {

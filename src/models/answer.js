@@ -21,4 +21,5 @@ const answerSchema = new mongoose.Schema({
         required:true
     }
 })
-const Answer = new mongoose.model("Answer",answerSchema)
+const Answer = new mongoose.model("Answer",answerSchema);
+module.exports = Answer;

@@ -22,15 +22,15 @@ const auth = {
             const token = req.cookies.jwt;
             req.isUser = false;
             req.username;
-            if (token !== undefined) {
-                req.isUser = true;
-               
-            }
+            if (token == undefined) return
+                req.isUser = true;              
+            
 
             next();
         } catch (error) {
             res.status(400).send(error)
         }
     }
+    
 }
 module.exports = auth;

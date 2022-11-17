@@ -13,7 +13,7 @@
     <h1 id="heading">{{question.heading}}</h1>
     <p id="description">{{question.description}}</p>
     <input type="hidden" value={{question.userId}} id="quesId">
-
+     <input type="hidden" value={{question._id}} id="questionId">
     <div id="form">
         <textarea name="answer" id="answer" cols="30" rows="10"></textarea>
         <button id="submit">Answer</button>
@@ -21,6 +21,7 @@
 </body>
 <script src="../js/index.js"></script>
 <script src="../js/question.js"></script>
+<script src="../js/answer.js"></script>
 <script>
     updateNavbar()
 </script>
