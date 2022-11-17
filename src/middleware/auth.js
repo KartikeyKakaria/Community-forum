@@ -23,14 +23,15 @@ const auth = {
             req.isUser = false;
             req.username;
             if (token !== undefined) {
-                req.isUser = true;
-               
+                req.isUser = true;              
+                
             }
-
+        
             next();
         } catch (error) {
             res.status(400).send(error)
         }
     }
+    
 }
 module.exports = auth;
