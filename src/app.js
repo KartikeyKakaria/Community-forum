@@ -57,6 +57,11 @@ app.get("/getQuestions",auth.authQues, async(req,res)=>{
     const questions = await Question.find();
     res.send([questions,req.isUser])
 })
+app.get("/getAnswers",auth.authQues, async(req,res)=>{
+    const answers = await Answer.find();
+    console.log(answers)
+    res.send([answers,req.isUser])
+})
 
 //get user's name by id
 app.post("/getUsername",async(req,res)=>{

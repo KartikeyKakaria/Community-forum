@@ -22,10 +22,11 @@ const auth = {
             const token = req.cookies.jwt;
             req.isUser = false;
             req.username;
-            if (token == undefined) return
+            if (token !== undefined) {
                 req.isUser = true;              
-            
-
+                
+            }
+        
             next();
         } catch (error) {
             res.status(400).send(error)
