@@ -10,6 +10,7 @@ const auth = require("./middleware/auth")
 const Topic = require("./models/topics");
 const Question = require("./models/questions");
 const Answer = require("./models/answer");
+const Comment = require("./models/comments");
 const jwt=require("jsonwebtoken")
 const mongoose = require("mongoose");
 
