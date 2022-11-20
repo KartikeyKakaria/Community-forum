@@ -63,6 +63,11 @@ app.post("/getAnswers",auth.authQues, async(req,res)=>{
     console.log(req.body.questionid)
     res.send([answers,req.isUser])
 })
+app.post("/getComments",async(req,res)=>{
+    result = await Comment.find({answerId:req.body.id})
+    res.send(result);
+    console.log(result)
+})
 
 //get user's name by id
 app.post("/getUsername",async(req,res)=>{
@@ -235,4 +240,4 @@ app.post("/isCookieThere", async(req, res) => {
 //listening to the server
 app.listen(port, () => {
     console.log("listening at port " + port)
-})                                                                               
+})                                                                                
