@@ -58,9 +58,9 @@ app.get("/getQuestions",auth.authQues, async(req,res)=>{
     const questions = await Question.find();
     res.send([questions,req.isUser])
 })
-app.get("/getAnswers",auth.authQues, async(req,res)=>{
-    const answers = await Answer.find();
-    console.log(answers)
+app.post("/getAnswers",auth.authQues, async(req,res)=>{
+    const answers = await Answer.find({quesId:req.body.questionid});
+    console.log(req.body.questionid)
     res.send([answers,req.isUser])
 })
 
@@ -206,9 +206,24 @@ app.post("/postAnswer",async(req,res)=>{
     res.send(result);
 })
 
+app.post("/postComment", async(req,res)=>{
+    const token = req.cookies.jwt;
+    const userid = jwt.verify(token, process.env.SECRET_KEY);
+    const comment = req.body;
+    const PostComment = new Comment({
+        description:comment.comment,
+        userId:userid,
+        answerId:comment.answerId,
+        upvotes:0,
+        downvotes:0
+    })
+    const result = await PostComment.save();
+    res.send(result)
+})
 //get topics
 app.post("/", async(req, res)=>{
     const Data = await Topic.find();
+    
     res.send(Data);
 })
 
@@ -220,4 +235,4 @@ app.post("/isCookieThere", async(req, res) => {
 //listening to the server
 app.listen(port, () => {
     console.log("listening at port " + port)
-})
+})                                                                               
