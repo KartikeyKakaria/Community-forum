@@ -28,12 +28,13 @@ const displayAnswers = () => {
 
 displayAnswers()
 function postComment() {
-
     let postComment = document.querySelectorAll("button.Reply");
     console.log(postComment)
     postComment.forEach(element => {
         element.addEventListener("click", e => {
-            const isloginned = await cookieExists();
+            let isloginned = false;
+            cookieExists()
+            .then(boole=>isloginned=true)
             if (isloginned) {
                 const comment = prompt("Enter The Comment");
                 const params = {

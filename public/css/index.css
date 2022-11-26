@@ -2,10 +2,14 @@
     box-sizing:border-box;
     margin:0;
     padding:0;
+    font-family: sans-serif;
 }
 body{
-    background-image:linear-gradient(to bottom left,blue, cyan);
+    /* background-image:linear-gradient(to bottom left,blue, cyan); */
     background-repeat:no-repeat;
     background-attachment:fixed;
     background-size:cover;
+}
+.hide{
+    display:none;
 }

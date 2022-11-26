@@ -16,7 +16,7 @@ const mongoose = require("mongoose");
 
 // const crud = require("./crud")
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 
 //paths for serving files
 const staticPath = path.join(__dirname, '../public');
@@ -156,7 +156,7 @@ app.post("/login", async(req, res) => {
         const password = req.body.password;
         const result = await User.findOne({ email: email });
         const isMatch = await bcrypt.compare(password, result.password);
-
+        // req.cookies.jwt="";
         // console.log(token)
 
 

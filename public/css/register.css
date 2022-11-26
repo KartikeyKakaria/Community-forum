@@ -1,26 +1,61 @@
+body{
+    background-image:linear-gradient(to bottom Right, rgb(8, 12, 9), rgb(2, 30, 2));
+}
 #title{
     margin:10px;
+    margin-bottom:20px;
+    background-image: linear-gradient(to right, cyan , rgb(0, 145, 255));
+    background-clip:text;
+    color:transparent;
 }
 #form{
     margin:10px;
     padding:5px;
 }
 #form input{
-    border-radius:12px;
-    height:30px;
-    width:1000px;
-    
+    margin:10px;
+    background-color:transparent;
+    border:none;
+    font-size:1.8rem;
+    width:400px;
+    color:white;
+}
+#form input:focus{
+    outline:none
+}
+#form span{
+    display:block;
+    width:0;
+    border-bottom:2px solid rgb(5, 62, 114);
+    transition:all 0.3s;
+}
+#form input:focus+span{
+    width:400px;
+}
+#form input:hover+span{
+    width:400px;
 }
 #form p {
     font-size:20px;
 }
-#submit{
-    background-color:lightgreen;
+#submit, #next{
+    background-image:linear-gradient(to Right, rgb(9, 164, 9),green);
+    border:none;
+    outline:none;
     padding:10px;
-    font-size:15px;
-    border-radius:12px;
+    margin-top:5px;
+    font-size:1.2rem;
+    width:100px;
+    height:40px;
     cursor:pointer;
+    transition:filter 0.3s transform 0.1s;
+    color:white;
+    border-radius:10px;
+    box-shadow: 0 3px 5px black;
 }
-#submit:hover{
-    background-color:green
+#submit:hover, #next:hover{
+    filter:brightness(80%)
+}
+#submit:active, #next:active{
+    transform:translateY(2px)
 }
