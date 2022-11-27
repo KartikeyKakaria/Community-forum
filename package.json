@@ -17,6 +17,7 @@
         "hbs": "^4.2.0",
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^6.7.0",
+        "sweetalert": "^2.1.2",
         "validator": "^13.7.0"
     }
 }
