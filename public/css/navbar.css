@@ -1,56 +1,62 @@
-header h1{
-    cursor:pointer;
-    color:white;
-    padding:10px;
-    border-radius:20px;
-    background-color:cyan;
-}
 header{
     display:flex;
     justify-content:space-between;
     align-items:center;
     padding:30px 10px;
-    background-image:linear-gradient(to right, rgb(50,50,50), black);
-    background-repeat:no-repeat;
+    background-color:rgb(10,15,20);         
 }
-header nav ul{
-    text-decoration:none;
-}
-header nav ul li{
-    font-size:20px;
-    color:white;
-    display:inline-block;
-    padding:10px 20px;
+
+
+.logo{
+    text-transform:uppercase;
+    font-size:1.8rem;
+    background-color:rgb(230,220,230);
+    padding:0 5px;
     cursor:pointer;
+    transition:all 0.3s linear;
+    border-radius:15px;
 }
-header h1:hover{
-    background-color:blue;
-    color:cyan;
+
+.logo:hover{
+    filter:brightness(60%)
 }
-nav ul li a{
-    border:0px solid none;
-    border-radius:12px;
-    padding:10px;
+header nav {
+    position:relative;
+    padding:0 12px;
+}
+
+header nav ul{
+      display:flex;
+      gap:40px;
+}
+
+header nav ul li{
+    list-style-type:none;
+    position:relative;
+    font-size:2rem;
+}
+
+.nav-link{
     text-decoration:none;
-    color:black;
+    color:white;
+    font-weight:550;
+    position:relative;
+    transition:all 0.3s linear;
 }
 
-nav ul li a:hover{
+.nav-link::after{
+    content:"";
+    position:absolute;
+    bottom:-10px;
+    left:0;
+    width:0;
+    border-bottom:2px solid cyan;
+    transition:all 0.15s linear;
+}
+
+.nav-link:hover:after{
+    width:100%;
+}
+.nav-link:hover{
     filter:brightness(80%);
-}
-
-#login{
-    background-color:yellow;
-}
-#home{
-    background-color:cyan;
-}
-#register{
-    background-color:orange;
-} 
-#logout{
-    background-color:lime;
-}
-#user{
-    background-color:pink
 }

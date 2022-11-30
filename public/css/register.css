@@ -4,9 +4,10 @@ body{
 #title{
     margin:10px;
     margin-bottom:20px;
-    background-image: linear-gradient(to right, cyan , rgb(0, 145, 255));
+    /* background-image: linear-gradient(to right, cyan , rgb(0, 145, 255));
     background-clip:text;
-    color:transparent;
+    color:transparent; */
+    color:red;
 }
 #form{
     margin:10px;

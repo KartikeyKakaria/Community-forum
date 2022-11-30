@@ -1,8 +1,5 @@
 const updateNavbar = () => {
-    const loginlink = document.getElementById("login")
-    const userlink = document.getElementById("user")
-    const logoutlink = document.getElementById("logout")
-    const registerlink = document.getElementById("register")
+    const navLinks = document.getElementById("nav-links");
     const params = {
         method: 'post',
         headers: {
@@ -15,15 +12,14 @@ const updateNavbar = () => {
         .then(data => {
             console.log(data)
             if (data == "") {
-                logoutlink.style.display = "none"
-                userlink.style.display = "none"
-                loginlink.style.display = "inline"
-                registerlink.style.display = "inline"
+                navLinks.innerHTML = `<li><a class="nav-link" id="home" href="/">Home</a></li>
+                <li><a class="nav-link" id="login" href="/login">Login</a></li>
+                <li><a class="nav-link" id="register" href="/register">Register</a></li>`
             } else {
-                logoutlink.style.display = "inline"
-                userlink.style.display = "inline"
-                loginlink.style.display = "none"
-                registerlink.style.display = "none"
+                navLinks.innerHTML = `<li><a class="nav-link" id="home" href="/">Home</a></li>
+
+                <li><a class="nav-link" id="logout" href="/logout">Logout</a></li>
+                <li><a class="nav-link" id="user" href="/User">You</a></li>`
             }
         })
         .catch(err => console.error(err))
@@ -47,16 +43,16 @@ const cookieExists = function() {
         })
         .catch(err => console.error(err))
 }
-const getUserName = function (id) {
+const getUserName = function(id) {
     const params = {
         method: 'post',
         headers: {
             'Content-type': "application/json"
         },
-        body: JSON.stringify({ id:id })
+        body: JSON.stringify({ id: id })
     }
-    return fetch("/getUsername",params)
-    .then(rep=>rep.text())
-    .then(data=>{return data})
-    .catch(err=>{return err})
+    return fetch("/getUsername", params)
+        .then(rep => rep.text())
+        .then(data => { return data })
+        .catch(err => { return err })
 }
