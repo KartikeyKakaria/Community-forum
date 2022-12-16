@@ -1,3 +1,4 @@
+require("dotenv").config();
 //importing modules and defining constants
 const express = require("express");
 const hbs = require("hbs");
@@ -15,7 +16,7 @@ app.use(express.static(staticPath));
 app.set("view engine","hbs");
 app.set("views", templatePath);
 hbs.registerPartials(partialsPath);
-
+require("./db/conn");
 //my Routers
 app.get("/",(req,res)=>{
     res.render("index");
