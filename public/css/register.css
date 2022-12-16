@@ -1,26 +1,25 @@
-#title{
-    margin:10px;
+.container {
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.container h1{
+    margin:20px 0;
 }
 #form{
-    margin:10px;
-    padding:5px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    flex-wrap:wrap;
+    height:60vh;
+    width:60vw;
+    background-color:white;
+    border-radius:12px;
+    box-shadow:0px 5px 5px black;
 }
 #form input{
-    border-radius:12px;
-    height:30px;
-    width:1000px;
-    
-}
-#form p {
-    font-size:20px;
-}
-#submit{
-    background-color:lightgreen;
-    padding:10px;
-    font-size:15px;
-    border-radius:12px;
-    cursor:pointer;
-}
-#submit:hover{
-    background-color:green
+    height:20px;
+    flex:1 1 50px;
+    margin:10px;
 }

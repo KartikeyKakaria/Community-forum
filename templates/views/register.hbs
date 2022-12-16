@@ -13,22 +13,24 @@
 
 <body>
     {{>navbar}}
-    <h1 id="title">User Registration Forum</h1>
 
-    <div id = "form">
-        {{!-- <form action="/register" method="POST"> --}}
-        <form>
-        <p>Name:</p><input name ="name" type="text" id="name"><br><br>
-        <p>Email:</p><input name="email" type="text" id="email"><br><br>
-        <p>Number:</p><input name="number" type="number" id="number"><br><br>
-        <p>Address:</p><input name="address" type="text" id="address"><br><br>
-        <p>Age:</p><input name="age" type="number" id="age"><br><br>
-        <p>Password:</p><input name="password" type="text" id="password"><br><br>
-        <p>Confirm Password:</p><input name="confpassword" type="text" id="confpassword"><br><br>
-        <button type="submit" id="submit">Submit</button>
-        </form>
+    <div class="container">
+        <h1 id="title">User Registration Form</h1>
+        <div id="form">
+            <input placeholder="Name" class="form-item" name="name" type="text" id="name"><br><br>
+            <input placeholder="Email" class="form-item" name="email" type="text" id="email"><br><br>
+            <input placeholder="Number" class="form-item" name="number" type="number" id="number"><br><br>
+            <input placeholder="Address" class="form-item" name="address" type="text" id="address"><br><br>
+            <input placeholder="Age" class="form-item" name="age" type="number" id="age"><br><br>
+            <input placeholder="Password" class="form-item" name="password" type="text" id="password"><br><br>
+            <input placeholder="Confirm Password" class="form-item" name="confpassword" type="text"
+                id="confpassword"><br><br>
+            <button type="submit" id="submit">Submit</button>
+
+        </div>
     </div>
 </body>
 <script src="js/index.js"></script>
 <script src="js/register.js"></script>
+
 </html>
