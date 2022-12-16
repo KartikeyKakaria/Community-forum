@@ -3,6 +3,7 @@ const express = require("express");
 const hbs = require("hbs");
 const join = require("path").join;
 const app = express();
+const port = process.env.PORT || 8000;
 
 //describing path to files and initalizing them
 const staticPath = join(__dirname,'../public');
@@ -14,3 +15,10 @@ app.use(express.static(staticPath));
 app.set("view engine","hbs");
 app.set("views", templatePath);
 hbs.registerPartials(partialsPath);
+
+//my Routers
+app.get("/",(req,res)=>{
+    res.render("index");
+})
+app.listen(port,()=>console.log(`listening at port ${port}`))
+
