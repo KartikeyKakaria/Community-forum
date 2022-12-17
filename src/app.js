@@ -6,6 +6,9 @@ const join = require("path").join;
 const app = express();
 const port = process.env.PORT || 8000;
 
+//getting the Models for database injection
+const USER = require('./schema/user');
+
 //describing path to files and initalizing them
 const staticPath = join(__dirname,'../public');
 const templatePath = join(__dirname,'../templates/views');
@@ -20,6 +23,9 @@ require("./db/conn");
 //my Routers
 app.get("/",(req,res)=>{
     res.render("index");
+})
+app.get("/signup",(req,res)=>{
+    res.render("signup");
 })
 app.listen(port,()=>console.log(`listening at port ${port}`))
 
