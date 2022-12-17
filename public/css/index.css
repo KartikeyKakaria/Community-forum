@@ -12,6 +12,9 @@ body{
 
 }
 /* reusable code */
+.hide{
+    display:none !important;
+}
 .btn{
     font-size:1rem;
     padding:8px;
