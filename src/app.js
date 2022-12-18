@@ -27,5 +27,12 @@ app.get("/",(req,res)=>{
 app.get("/signup",(req,res)=>{
     res.render("signup");
 })
-app.listen(port,()=>console.log(`listening at port ${port}`))
+
+//Registering the user
+app.post('/register',(req,res)=>{
+    const data = req.body;
+    console.log(data);
+    res.send(data);
+})
+app.listen(port,err=>console.log(`listening at port ${port}`))
 

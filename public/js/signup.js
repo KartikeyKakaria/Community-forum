@@ -15,6 +15,26 @@ submit.addEventListener('click', e => {
         updateForm();
         submit.innerText = 'Sign Up';
     } else {
-        console.log('submitted!')
+        const password = getInpValue('password');
+        const confpassword = getInpValue('confpassword');
+        if(password == confpassword){
+            const name = getInpValue('name');
+            const email = getInpValue('email');
+            const address = getInpValue('address');
+            const age = getInpValue('age');
+            const number = getInpValue('number');
+            const userData = {name,email,address,age,number,password, confpassword};
+            if(isEmpty(userData)){
+                alert('Please enter all the fields');
+            }else{
+                const params = new Params('json',userData);
+                fetch('/register',params)
+                .then(rep=>rep.json())
+                .then(result=>console.log(result))
+                .catch(err=>console.log(err))
+            }
+        }else{
+            alert("Passwords dont't match")
+        }
     }
 })
