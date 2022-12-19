@@ -1,4 +1,4 @@
-# Coomunity-forum
+# Community-forum
 ## A community discussion forum using node.js
 
 ## It is a community discussion forum made in express.js and mongodb
@@ -16,7 +16,7 @@
 ```
 ## You can create a .env file as well to store private data like database path, jwt password and server port. For that, install the following package
 ```sh
- npm i dotenv
+npm i dotenv
 ```
 
 ### Note: The template for user registration and login was taken from [registration](https://github.com/KartikeyKakaria/registration)

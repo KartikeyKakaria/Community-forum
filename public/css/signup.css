@@ -19,6 +19,7 @@ h1{
     font-size:1.4rem;
     font-weight:600px;
     color:var(--inputcolor);
+    transition:all 0.2s linear;
 }
 .register-input::placeholder{
     color:var(--inputcolor);

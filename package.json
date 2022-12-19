@@ -4,7 +4,8 @@
     "description": "Registration form",
     "main": "index.js",
     "scripts": {
-        "start": "nodemon src/app.js"
+        "start": "nodemon src/app.js",
+        "startSimple": "node src/app.js"
     },
     "author": "",
     "license": "ISC",
