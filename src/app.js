@@ -39,7 +39,9 @@ app.get("/", (req, res) => {
 app.get("/signup", (req, res) => {
     res.render("signup");
 })
-
+app.get("/login",(req,res)=>{
+    res.render("login")
+})
 //Registering the user
 app.post('/register', async(req, res) => {
     const data = req.body;
@@ -71,4 +73,7 @@ app.post('/register', async(req, res) => {
     res.send(rep);
 
 })
+
+//logging the user in
+
 app.listen(port, err => console.log(`listening at port ${port}`))
