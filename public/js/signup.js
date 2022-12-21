@@ -22,7 +22,7 @@ const changeTextCol = (bool, ind) => {
     }
 }
 inputs.forEach(input => {
-    ['keydown', 'keyup', 'blur'].forEach(evt => {
+    ['keydown', 'keyup'].forEach(evt => {
         input.addEventListener(evt, () => {
             const id = input.id;
             const val = getInpValue(id);

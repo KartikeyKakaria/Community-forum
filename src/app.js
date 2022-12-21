@@ -41,7 +41,7 @@ app.get("/signup", (req, res) => {
 })
 
 //Registering the user
-app.post('/register', (req, res) => {
+app.post('/register', async(req, res) => {
     const data = req.body;
     const emailValidationRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let rep;
@@ -53,7 +53,20 @@ app.post('/register', (req, res) => {
         rep = new responseData(false, "mobile number");
     } else {
         //code to push the user details into db
-        rep = new responseData(true, "Registered");
+        const user = new USER({
+            name:data.name,
+            email:data.email,
+            address:data.address,
+            age:data.age,
+            number:data.number,
+            password:data.password
+        })
+        const result = await user.save();
+        if(result.name!==undefined){
+            rep = new responseData(true, "Registered");
+        }else{
+            rep = new responseData(false, "details");
+        }
     }
     res.send(rep);
 
