@@ -27,3 +27,6 @@ function isEmpty(obj){
     }
     return result;
 }
+function includes(mainStr, includedStr){
+    return mainStr.indexOf(includedStr) !== -1;
+}
