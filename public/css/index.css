@@ -1,5 +1,7 @@
 :root{
     --inputcolor:rgb(236,225,246);
+    --smartbordercolor: 0.1px solid hsla(210,18%,87%,1);
+    --smolbordercurve:0 0 6px 6px;
 }
 *{
     margin:0;
@@ -8,8 +10,7 @@
     font-family:sans-serif;
 }
 body{
-    background-image:linear-gradient(to right,rgb(198, 92, 92), pink);
-
+    background-color:white;
 }
 /* reusable code */
 .hide{
