@@ -22,6 +22,11 @@ body{
     border-radius:8px;
     cursor:pointer;
 }
+
+.hover-effect{
+    transition: filter 0.3s linear;
+}
+
 .hover-effect:hover{
     filter:brightness(80%);
 }
@@ -48,7 +53,7 @@ header{
     cursor:pointer;
     transition:all 0.3s linear;
 }
-}
+
 .search{
     padding:5px;
     margin-top:10px;

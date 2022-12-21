@@ -22,22 +22,24 @@ const changeTextCol = (bool, ind) => {
     }
 }
 inputs.forEach(input => {
-    input.addEventListener('blur', () => {
-        const id = input.id;
-        const val = getInpValue(id);
-        switch (id) {
-            case 'name':
-                changeTextCol(validations.name(val), input)
-                break;
-            case 'email':
-                changeTextCol(validations.email(val), input);
-                break;
-            case 'number':
-                changeTextCol(validations.number(val), input);
-                break;
-            default:
-                changeTextCol(true, input);
-        }
+    ['keydown', 'keyup', 'blur'].forEach(evt => {
+        input.addEventListener(evt, () => {
+            const id = input.id;
+            const val = getInpValue(id);
+            switch (id) {
+                case 'name':
+                    changeTextCol(validations.name(val), input)
+                    break;
+                case 'email':
+                    changeTextCol(validations.email(val), input);
+                    break;
+                case 'number':
+                    changeTextCol(validations.number(val), input);
+                    break;
+                default:
+                    changeTextCol(true, input);
+            }
+        })
     })
 })
 inputs.shift();
@@ -63,18 +65,7 @@ submit.addEventListener('click', e => {
             const address = getInpValue('address');
             const age = getInpValue('age');
             const number = getInpValue('number');
-            const userData = {
-                name,
-                email,
-                address,
-                age,
-                number,
-                password,
-                confpassword,
-                validateName: validations.name,
-                validateEmail: validations.email,
-                validateNumber: validations.number
-            };
+            const userData = {name,email,address,age,number,password,confpassword,};
             if (isEmpty(userData)) {
                 alert('Please enter all the fields');
             } else {
