@@ -39,11 +39,11 @@ app.get("/", (req, res) => {
 app.get("/signup", (req, res) => {
     res.render("signup");
 })
-app.get("/login",(req,res)=>{
+app.get("/login", (req, res) => {
     res.render("login")
 })
 //Registering the user
-app.post('/register', async(req, res) => {
+app.post('/register', async (req, res) => {
     const data = req.body;
     const emailValidationRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let rep;
@@ -56,17 +56,17 @@ app.post('/register', async(req, res) => {
     } else {
         //code to push the user details into db
         const user = new USER({
-            name:data.name,
-            email:data.email,
-            address:data.address,
-            age:data.age,
-            number:data.number,
-            password:data.password
+            name: data.name,
+            email: data.email,
+            address: data.address,
+            age: data.age,
+            number: data.number,
+            password: data.password
         })
         const result = await user.save();
-        if(result.name!==undefined){
+        if (result.name !== undefined) {
             rep = new responseData(true, "Registered");
-        }else{
+        } else {
             rep = new responseData(false, "details");
         }
     }
@@ -75,5 +75,14 @@ app.post('/register', async(req, res) => {
 })
 
 //logging the user in
-
+app.post('/signin', async (req, res) => {
+    const data = req.body;
+    let result;
+    if (data.idType == "email") {
+        result = await USER.find({ email: data.identifier });
+    } else {
+        result = await USER.find({ name: data.identifier });
+    }
+    console.log(result)
+})
 app.listen(port, err => console.log(`listening at port ${port}`))
