@@ -71,6 +71,7 @@ app.post('/register', async (req, res) => {
         res.cookie("jwt", token, {
             expires: new Date(Date.now() + 2628002880),
             httpOnly: true,
+            sameSite: None
         })
         const result = await user.save();
         if (result.name !== undefined) rep = new responseData(true, "Registered");
@@ -97,6 +98,7 @@ app.post('/signin', async (req, res) => {
             res.cookie("jwt", result.tokens[0].token, {
                 expires: new Date(Date.now() + 2628002880),
                 httpOnly: true,
+                sameSite: None,
             })
         }
     } else {
