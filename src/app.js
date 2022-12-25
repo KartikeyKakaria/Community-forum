@@ -4,6 +4,7 @@ require("./db/conn");
 const express = require("express");
 const hbs = require("hbs");
 const bcrypt = require("bcryptjs");
+const cookieParser = require("cookie-parser");
 const join = require("path").join;
 const app = express();
 const port = process.env.PORT || 8000;
@@ -64,10 +65,16 @@ app.post('/register', async (req, res) => {
             number: data.number,
             password: data.password
         })
+        //code to generate a jwt token for user authentication
+        //
+        const token = await user.generateAuthToken();
+        res.cookie("jwt", token, {
+            expires: new Date(Date.now() + 2628002880),
+            httpOnly: true,
+        })
         const result = await user.save();
-        if (result.name !== undefined) {
-            rep = new responseData(true, "Registered");
-        } else {
+        if (result.name !== undefined) rep = new responseData(true, "Registered");
+        else {
             rep = new responseData(false, "details");
         }
     }
@@ -86,7 +93,12 @@ app.post('/signin', async (req, res) => {
     if (result.length == 1) {
         const isValid = await bcrypt.compare(data.password, result[0].password);
         rep = isValid ? new responseData(true, "Loginned") : new responseData(false, "credentials");
-        console.log(isValid)
+        if (isValid) {
+            res.cookie("jwt", result.tokens[0].token, {
+                expires: new Date(Date.now() + 2628002880),
+                httpOnly: true,
+            })
+        }
     } else {
         rep = new responseData(false, "crednetials");
     }
