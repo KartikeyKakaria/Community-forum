@@ -12,6 +12,9 @@ const port = process.env.PORT || 8000;
 //getting the Models for database injection
 const USER = require('./schema/user');
 
+//authentication variables (middleware)
+const authUser = require('./middleware/userAuth')
+
 //describing path to files and initalizing them
 const staticPath = join(__dirname, '../public');
 const templatePath = join(__dirname, '../templates/views');
@@ -66,13 +69,13 @@ app.post('/register', async (req, res) => {
             password: data.password
         })
         //code to generate a jwt token for user authentication
-        //
         const token = await user.generateAuthToken();
         res.cookie("jwt", token, {
             expires: new Date(Date.now() + 2628002880),
             httpOnly: true,
             sameSite: None
         })
+        //
         const result = await user.save();
         if (result.name !== undefined) rep = new responseData(true, "Registered");
         else {
