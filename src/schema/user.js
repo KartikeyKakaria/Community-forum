@@ -4,6 +4,7 @@ const User = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   email: {
     type: String,
@@ -26,7 +27,7 @@ const User = new mongoose.Schema({
   },
 });
 
-User.pre("save", async function(next){
+User.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 4);
   next();
 });

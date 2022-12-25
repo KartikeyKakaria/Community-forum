@@ -3,6 +3,7 @@ require("./db/conn");
 //importing modules and defining constants
 const express = require("express");
 const hbs = require("hbs");
+const bcrypt = require("bcryptjs");
 const join = require("path").join;
 const app = express();
 const port = process.env.PORT || 8000;
@@ -71,7 +72,6 @@ app.post('/register', async (req, res) => {
         }
     }
     res.send(rep);
-
 })
 
 //logging the user in
@@ -83,6 +83,14 @@ app.post('/signin', async (req, res) => {
     } else {
         result = await USER.find({ name: data.identifier });
     }
-    console.log(result)
+    if (result.length == 1) {
+        const isValid = await bcrypt.compare(data.password, result[0].password);
+        rep = isValid ? new responseData(true, "Loginned") : new responseData(false, "credentials");
+        console.log(isValid)
+    } else {
+        rep = new responseData(false, "crednetials");
+    }
+    res.send(rep)
+
 })
 app.listen(port, err => console.log(`listening at port ${port}`))
