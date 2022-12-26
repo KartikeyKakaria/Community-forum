@@ -65,7 +65,7 @@ submit.addEventListener('click', e => {
             const address = getInpValue('address');
             const age = getInpValue('age');
             const number = getInpValue('number');
-            const userData = {name,email,address,age,number,password,confpassword,};
+            const userData = { name, email, address, age, number, password, confpassword, };
             if (isEmpty(userData)) {
                 alert('Please enter all the fields');
             } else {
@@ -74,11 +74,23 @@ submit.addEventListener('click', e => {
                     .then(rep => rep.json())
                     .then(result => {
                         if (result.success) {
-                            alert(result.msg)
-                                //code to show msg if user was registered successfully
+                            //code to show msg if user was registered successfully
+                            swal({
+                                title: "Registered!",
+                                text: "You were Registered successfully",
+                                icon: "success",
+                                button: "Proceed"
+                            }).then(() => {
+                                window.location = window.location.href.replace('signup', 'me');
+                            })
+
                         } else {
-                            alert(result.msg)
-                                //code to show msg if user was not registered successfully
+                            //code to show msg if user was not registered successfully
+                            swal({
+                                title: "Error",
+                                text: result.msg,
+                                icon: "warning"
+                            })
                         }
                     })
                     .catch(err => console.log(err))

@@ -20,6 +20,7 @@ const staticPath = join(__dirname, '../public');
 const templatePath = join(__dirname, '../templates/views');
 const partialsPath = join(__dirname, '../templates/partials');
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(staticPath));
 app.set("view engine", "hbs");
@@ -47,6 +48,12 @@ app.get("/signup", (req, res) => {
 app.get("/login", (req, res) => {
     res.render("login")
 })
+app.get("/me", authUser, (req, res) => {
+    console.log(req.user)
+    res.render("user", {
+        user: req.user
+    })
+})
 //Registering the user
 app.post('/register', async (req, res) => {
     const data = req.body;
@@ -72,8 +79,6 @@ app.post('/register', async (req, res) => {
         const token = await user.generateAuthToken();
         res.cookie("jwt", token, {
             expires: new Date(Date.now() + 2628002880),
-            httpOnly: true,
-            sameSite: None
         })
         //
         const result = await user.save();
@@ -88,7 +93,7 @@ app.post('/register', async (req, res) => {
 //logging the user in
 app.post('/signin', async (req, res) => {
     const data = req.body;
-    let result;
+    let result, rep;
     if (data.idType == "email") {
         result = await USER.find({ email: data.identifier });
     } else {
@@ -96,13 +101,14 @@ app.post('/signin', async (req, res) => {
     }
     if (result.length == 1) {
         const isValid = await bcrypt.compare(data.password, result[0].password);
-        rep = isValid ? new responseData(true, "Loginned") : new responseData(false, "credentials");
+        console.log(isValid, data.password)
         if (isValid) {
             res.cookie("jwt", result.tokens[0].token, {
                 expires: new Date(Date.now() + 2628002880),
-                httpOnly: true,
-                sameSite: None,
             })
+            rep = new responseData(true, "Loginned");
+        } else {
+            rep = new responseData(false, "credentials");
         }
     } else {
         rep = new responseData(false, "crednetials");
