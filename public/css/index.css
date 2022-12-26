@@ -1,84 +1,102 @@
-:root{
-    --inputcolor:rgb(236,225,246);
-    --smartbordercolor: 0.1px solid hsla(210,18%,87%,1);
-    --smolbordercurve:0 0 6px 6px;
+:root {
+    --inputcolor: rgb(236, 225, 246);
+    --smartbordercolor: 0.1px solid hsla(210, 18%, 87%, 1);
+    --smolbordercurve: 0 0 6px 6px;
+    --shadow: 2px 2px 5px black;
 }
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:sans-serif;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
 }
-body{
-    background-color:white;
+
+body {
+    background-color: white;
 }
+
 /* reusable code */
-.hide{
-    display:none !important;
+.hide {
+    display: none !important;
 }
-.hover-effect{
-    transition:filter 0.3s linear;
+
+.hover-effect {
+    transition: filter 0.3s linear;
 }
-.btn{
-    font-size:1rem;
-    padding:8px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
+
+.btn {
+    font-size: 1rem;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
-.hover-effect:hover{
-    filter:brightness(80%);
+
+.hover-effect:hover {
+    filter: brightness(80%);
 }
-.container{
-    padding:2vw;
+
+.container {
+    padding: 2vw;
 }
-.form{
-    margin-top:30px;
-    display:flex;
-    flex-direction:column;
+
+.form {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
 }
+
 /* navbar css */
-header{
-    padding:1rem;
-    background-color:rgb(99,97,99);
-    display:flex;
-    justify-content:space-between;
-    position:relative;
+header {
+    padding: 1rem;
+    background-color: rgb(99, 97, 99);
+    display: flex;
+    justify-content: space-between;
+    position: relative;
 }
-.logo{
-    color:aqua;
-    font-size:2rem;
-    font-family:times-new-roman;
-    cursor:pointer;
-    transition:all 0.3s linear;
+
+.logo {
+    color: aqua;
+    font-size: 2rem;
+    font-family: times-new-roman;
+    cursor: pointer;
+    transition: all 0.3s linear;
 }
 }
-.search{
-    padding:5px;
-    margin-top:10px;
+
+.search {
+    padding: 5px;
+    margin-top: 10px;
 }
-.search input{
-    padding:5px;
-    background:white;
-    font-size:1.2rem;
-    border-radius:12px;
+
+.search input {
+    padding: 5px;
+    background: white;
+    font-size: 1.2rem;
+    border-radius: 12px;
 }
-.search input:focus{
-    outline:none;
+
+.search input:focus {
+    outline: none;
 }
-.btn-search{
-    background-color:rgb(78,195,87)
+
+.btn-search {
+    background-color: rgb(78, 195, 87)
 }
-.links{
-    display:flex;
-    justify-content:space-between;
+
+.links {
+    display: flex;
+    justify-content: space-between;
 }
-.links li{
-    list-style-type:none;
-    margin:10px;
+
+.links li {
+    list-style-type: none;
+    margin: 10px;
 }
-.link{
-    text-decoration:none;
-    color:white;
-    position:relative;
+
+.link {
+    text-decoration: none;
+    color: white;
+    position: relative;
 }

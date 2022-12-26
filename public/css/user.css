@@ -5,4 +5,23 @@ body {
 .main {
     display: flex;
     flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.head {
+    padding: 40px 200px;
+    background-color: white;
+    border-radius: 5px;
+    background-image: linear-gradient(to bottom right, #6c4ccb, #5c35d2);
+    box-shadow: var(--shadow);
+}
+
+.detailsSection {
+    background-color: white;
+    padding: 40px 200px;
+    border-radius: 6px;
+    box-shadow: var(--shadow);
 }
