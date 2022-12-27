@@ -116,4 +116,11 @@ app.post('/signin', async (req, res) => {
     res.send(rep)
 
 })
+
+//editing user data
+app.post('/edit', async(req, res)=>{
+    const data = req.body;
+    console.log(data);
+    res.send(data);
+})
 app.listen(port, err => console.log(`listening at port ${port}`))

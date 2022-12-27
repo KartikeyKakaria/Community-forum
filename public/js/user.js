@@ -9,12 +9,20 @@ const toggleCss = e=>{
 edit.addEventListener('click',e=>{
     let btn = e.target
     if(btn.innerText == 'Change'){
+        userDetails = [];
         details.forEach(detail=>{
+            userDetails.push(detail.innerText)
             detail.contentEditable=false;  
         })
+        const [name,email, age, address,number] = userDetails;
         btn.innerHTML = "&#x270E;"
         toggleCss(e);
         btn.style.background = "white";
+        const params = new Params('json',{name, email, age, address, number});
+        fetch('/edit',params)
+        .then(rep=>rep.json())
+        .then(data=>console.log(data))
+        .catch(err=>console.log(err))
     }else{
         details.forEach(detail=>{
             detail.contentEditable=true;    
