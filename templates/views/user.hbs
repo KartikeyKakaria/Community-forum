@@ -22,17 +22,18 @@
         <div class="detailsSection">
             <div class="details">
                 <ul>
-                    <li class="detail">{{user.name}}</li>
-                    <li class="detail">{{user.email}}</li>
-                    <li class="detail">{{user.age}}</li>
-                    <li class="detail">{{user.address}}</li>
-                    <li class="detail">{{user.number}}</li>
+                    <li class="detail">Name: <span>{{user.name}}</span></li>
+                    <li class="detail">Email: <span>{{user.email}}</span></li>
+                    <li class="detail">Age: <span>{{user.age}}</span></li>
+                    <li class="detail">Address: <span>{{user.address}}</span></li>
+                    <li class="detail">Number: <span>{{user.number}}</span></li>
                 </ul>
             </div>
         </div>
         <div class="changePassword">
             <h3>Change password:</h3>
-            <input type="password">Change!</button>
+            <input type="password" placeholder="new password"><br>
+            <button class="btn hover-effect btn-password">Change Password</button>
         </div>
     </div>
 </body>

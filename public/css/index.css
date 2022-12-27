@@ -1,8 +1,10 @@
 :root {
     --inputcolor: rgb(236, 225, 246);
     --smartbordercolor: 0.1px solid hsla(210, 18%, 87%, 1);
+    --smartfocuscolor: 2px solid rgba(20,100,250,0.5);
     --smolbordercurve: 0 0 6px 6px;
     --shadow: 2px 2px 5px black;
+    --helpergrad:linear-gradient(to bottom right, #6c4ccb, #4a30d1)
 }
 
 * {
