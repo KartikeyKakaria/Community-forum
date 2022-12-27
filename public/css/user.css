@@ -74,3 +74,13 @@ body {
     background-image:var(--helpergrad);
     color:#f5f4a5;
 }
+.editSection{
+    cursor:pointer;
+}
+.edit{
+    cursor:pointer;
+    background-color:white;
+    border:none;
+    outline:none;
+    font-size:18px;
+}
