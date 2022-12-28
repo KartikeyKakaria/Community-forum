@@ -8,16 +8,15 @@ login.addEventListener('click', () => {
     }
     const params = new Params('json', { idType, identifier, password })
     fetch('/signin', params)
-        .then(rep => rep.text())
+        .then(rep => rep.json())
         .then(data => {
-            console.log(data)
             if (data.success) {
                 swal({
                     title: "Loginned",
                     text: "You were loginned successfully",
                     icon: "success",
                 })
-                window.location.href += "/me"
+                .then(()=>{window.location.href = "http://192.168.1.2:8000/me"})
             } else {
                 swal({
                     title: "Invalid Credentials",

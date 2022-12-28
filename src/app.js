@@ -101,9 +101,10 @@ app.post('/signin', async (req, res) => {
     }
     if (result.length == 1) {
         const isValid = await bcrypt.compare(data.password, result[0].password);
+        console.log(result[0].password)
         console.log(isValid, data.password)
         if (isValid) {
-            res.cookie("jwt", result.tokens[0].token, {
+            res.cookie("jwt", result[0].tokens[0].token, {
                 expires: new Date(Date.now() + 2628002880),
             })
             rep = new responseData(true, "Loginned");

@@ -46,7 +46,9 @@ User.methods.generateAuthToken = async function () {
 }
 
 User.pre("save", async function (next) {
-  this.password = await bcrypt.hash(this.password, 4);
+  if(this.isModified("password")){
+    this.password = await bcrypt.hash(this.password, 4);
+  }
   next();
 });
 const Register = new mongoose.model("user", User);
