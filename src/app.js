@@ -119,9 +119,28 @@ app.post('/signin', async (req, res) => {
 })
 
 //editing user data
-app.post('/edit', async(req, res)=>{
+app.post('/edit',authUser, async(req, res)=>{
     const data = req.body;
-    console.log(data);
-    res.send(data);
+    let rep;
+    try {
+        const result = await USER.updateOne({_id:req.user._id},{
+            $set:{
+                name:data.name,
+                email:data.email,
+                age:data.age,
+                address:data.address,
+                number:data.number,
+            }
+        })
+        console.log(result);
+        if(result.modifiedCount<1){
+            rep=new responseData(false,"details")
+        }else{
+            rep=new responseData(true,"Updated")
+        }
+    } catch (error) {
+        rep=new responseData(false,"details")
+    }
+    res.send(rep);
 })
 app.listen(port, err => console.log(`listening at port ${port}`))
