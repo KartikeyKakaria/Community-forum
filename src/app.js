@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const join = require("path").join;
 const app = express();
 const port = process.env.PORT || 8000;
+const emailValidationRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 //getting the Models for database injection
 const USER = require('./schema/user');
@@ -57,7 +58,6 @@ app.get("/me", authUser, (req, res) => {
 //Registering the user
 app.post('/register', async (req, res) => {
     const data = req.body;
-    const emailValidationRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let rep;
     if (data.name.length < 2 || data.name.length > 50) {
         rep = new responseData(false, "name")
@@ -123,21 +123,29 @@ app.post('/edit',authUser, async(req, res)=>{
     const data = req.body;
     let rep;
     try {
-        const result = await USER.updateOne({_id:req.user._id},{
-            $set:{
-                name:data.name,
-                email:data.email,
-                age:data.age,
-                address:data.address,
-                number:data.number,
-            }
-        })
-        console.log(result);
-        if(result.modifiedCount<1){
-            rep=new responseData(false,"details")
+        if (data.name.length < 2 || data.name.length > 50) {
+            rep = new responseData(false, "name")
+        } else if (!data.email.match(emailValidationRegex)) {
+            rep = new responseData(false, "email");
+        } else if (data.number.length !== 10) {
+            rep = new responseData(false, "mobile number");
         }else{
-            rep=new responseData(true,"Updated")
+            const result = await USER.updateOne({_id:req.user._id},{
+                $set:{
+                    name:data.name,
+                    email:data.email,
+                    age:data.age,
+                    address:data.address,
+                    number:data.number,
+                }
+            })
+            if(result.modifiedCount<1){
+                rep=new responseData(false,"details")
+            }else{
+                rep=new responseData(true,"Updated")
+            }
         }
+        
     } catch (error) {
         rep=new responseData(false,"details")
     }

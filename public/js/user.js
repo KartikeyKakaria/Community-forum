@@ -21,7 +21,6 @@ edit.addEventListener('click',e=>{
         fetch('/edit',params)
         .then(rep=>rep.json())
         .then(data=>{
-            console.log(data)
             if(data.success){
                 swal({
                     title:"Updated",
@@ -31,7 +30,7 @@ edit.addEventListener('click',e=>{
             }else{
                 swal({
                     title:"Error",
-                    text:"Please enter valid details",
+                    text:data.msg,
                     icon:"warning"
                 })
             }
