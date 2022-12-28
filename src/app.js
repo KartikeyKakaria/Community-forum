@@ -151,4 +151,24 @@ app.post('/edit',authUser, async(req, res)=>{
     }
     res.send(rep);
 })
+
+//changing user Password
+app.post('/changePassword', authUser, async(req, res)=>{
+    let rep;
+    const data = req.body;
+    const isMatch = await bcrypt.compare(data.oldPassword, req.user.password);
+    if(isMatch){
+        const newPassword = await bcrypt.hash(data.newPassword, 4);
+        const result = await USER.updateOne({_id:req.user._id},{$set:{password:newPassword}});
+        if(result.modifiedCount == 1){
+            rep = new responseData(true, "Password changed")
+        }else{
+            rep = new responseData(false,"Passwrod")
+        }
+    }else{
+        rep = new responseData(false,"Password")
+    }
+    res.send(rep)
+})
+
 app.listen(port, err => console.log(`listening at port ${port}`))
