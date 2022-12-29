@@ -55,6 +55,21 @@ app.get("/me", authUser, (req, res) => {
         user: req.user
     })
 })
+
+//loggign out the user
+app.get("/logout",authUser,async(req,res)=>{
+    let rep ;
+    try {
+        res.clearCookie("jwt")
+        console.log("logout successfully");
+        rep= new responseData(true, "Logged out")
+    } catch (error) {
+        console.log(error)
+        rep =  new responseData(false, error);
+    }
+    res.send(rep);
+})
+
 //Registering the user
 app.post('/register', async (req, res) => {
     const data = req.body;

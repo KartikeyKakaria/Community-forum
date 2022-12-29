@@ -1,3 +1,4 @@
+updateNavbar();
 const details = document.querySelectorAll('span');
 const edit = document.getElementById('edit');
 const changePassword = document.getElementById('changePassword');
