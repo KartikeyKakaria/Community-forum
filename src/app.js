@@ -171,4 +171,4 @@ app.post('/changePassword', authUser, async(req, res)=>{
     res.send(rep)
 })
 
-app.listen(port, err => console.log(`listening at port ${port}`))
+app.listen(port, (err) => console.log(`listening at port ${port}`))
