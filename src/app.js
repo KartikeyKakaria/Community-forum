@@ -70,9 +70,7 @@ app.get("/logout", authUser, async (req, res) => {
     }
     res.send(rep);
 })
-app.get("/topics", (req, res) => {
-    res.render("insertTopic")
-})
+
 //Registering the user
 app.post('/register', async (req, res) => {
     const data = req.body;
@@ -185,23 +183,6 @@ app.post('/changePassword', authUser, async (req, res) => {
         }
     } else {
         rep = new responseData(false, "Password")
-    }
-    res.send(rep)
-})
-
-app.post('/addTopic', async (req, res) => {
-    console.log("yeah getting posted")
-    const data = req.body;
-    let rep = new responseData(false, "Sorry man")
-    try {
-        const topic = new TOPIC({ name: data.name, definition: data.desc, imageName: data.path })
-        const result = await topic.save();
-        if (result) {
-            rep = new responseData(true, "done less go boi");
-        }
-    } catch (err) {
-        console.log(err)
-        rep.msg = err;
     }
     res.send(rep)
 })
