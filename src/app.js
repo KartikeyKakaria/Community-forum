@@ -7,11 +7,12 @@ const bcrypt = require("bcryptjs");
 const cookieParser = require("cookie-parser");
 const join = require("path").join;
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 const emailValidationRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 //getting the Models for database injection
 const USER = require('./schema/user');
+const TOPIC = require('./schema/topic')
 
 //authentication variables (middleware)
 const authUser = require('./middleware/userAuth')
@@ -57,15 +58,15 @@ app.get("/me", authUser, (req, res) => {
 })
 
 //loggign out the user
-app.get("/logout",authUser,async(req,res)=>{
-    let rep ;
+app.get("/logout", authUser, async (req, res) => {
+    let rep;
     try {
         res.clearCookie("jwt")
         console.log("logout successfully");
-        rep= new responseData(true, "Logged out")
+        rep = new responseData(true, "Logged out")
     } catch (error) {
         console.log(error)
-        rep =  new responseData(false, error);
+        rep = new responseData(false, error);
     }
     res.send(rep);
 })
@@ -134,7 +135,7 @@ app.post('/signin', async (req, res) => {
 })
 
 //editing user data
-app.post('/edit',authUser, async(req, res)=>{
+app.post('/edit', authUser, async (req, res) => {
     const data = req.body;
     let rep;
     try {
@@ -144,44 +145,44 @@ app.post('/edit',authUser, async(req, res)=>{
             rep = new responseData(false, "email");
         } else if (data.number.length !== 10) {
             rep = new responseData(false, "mobile number");
-        }else{
-            const result = await USER.updateOne({_id:req.user._id},{
-                $set:{
-                    name:data.name,
-                    email:data.email,
-                    age:data.age,
-                    address:data.address,
-                    number:data.number,
+        } else {
+            const result = await USER.updateOne({ _id: req.user._id }, {
+                $set: {
+                    name: data.name,
+                    email: data.email,
+                    age: data.age,
+                    address: data.address,
+                    number: data.number,
                 }
             })
-            if(result.modifiedCount<1){
-                rep=new responseData(false,"details")
-            }else{
-                rep=new responseData(true,"Updated")
+            if (result.modifiedCount < 1) {
+                rep = new responseData(false, "details")
+            } else {
+                rep = new responseData(true, "Updated")
             }
         }
-        
+
     } catch (error) {
-        rep=new responseData(false,"details")
+        rep = new responseData(false, "details")
     }
     res.send(rep);
 })
 
 //changing user Password
-app.post('/changePassword', authUser, async(req, res)=>{
+app.post('/changePassword', authUser, async (req, res) => {
     let rep;
     const data = req.body;
     const isMatch = await bcrypt.compare(data.oldPassword, req.user.password);
-    if(isMatch){
+    if (isMatch) {
         const newPassword = await bcrypt.hash(data.newPassword, 4);
-        const result = await USER.updateOne({_id:req.user._id},{$set:{password:newPassword}});
-        if(result.modifiedCount == 1){
+        const result = await USER.updateOne({ _id: req.user._id }, { $set: { password: newPassword } });
+        if (result.modifiedCount == 1) {
             rep = new responseData(true, "Password changed")
-        }else{
-            rep = new responseData(false,"Passwrod")
+        } else {
+            rep = new responseData(false, "Passwrod")
         }
-    }else{
-        rep = new responseData(false,"Password")
+    } else {
+        rep = new responseData(false, "Password")
     }
     res.send(rep)
 })
