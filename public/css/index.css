@@ -1,10 +1,12 @@
 :root {
     --inputcolor: rgb(236, 225, 246);
     --smartbordercolor: 0.1px solid hsla(210, 18%, 87%, 1);
-    --smartfocuscolor: 2px solid rgba(20,100,250,0.5);
+    --smartfocuscolor: 2px solid rgba(20, 100, 250, 0.5);
     --smolbordercurve: 0 0 6px 6px;
     --shadow: 2px 2px 5px black;
-    --helpergrad:linear-gradient(to bottom right, #6c4ccb, #4a30d1)
+    --helpergrad: linear-gradient(to bottom right, #6c4ccb, #4a30d1);
+    --helper: #8490ff;
+    --helpergrad: linear-gradient(to right, #8490ff, #5a68e2)
 }
 
 * {
@@ -49,6 +51,36 @@ body {
     flex-direction: column;
 }
 
+
+.common-heading {
+    font-size: 2.8rem;
+    font-weight: 600;
+    margin-bottom: 6rem;
+    text-transform: capitalize;
+    position: relative;
+}
+
+.common-heading::before {
+    content: "";
+    position: absolute;
+    top: 103%;
+    left: 0;
+    height: 1.5rem;
+    width: 1.5rem;
+    background-color: var(--helper);
+    border-radius: 50%;
+}
+
+.common-heading::after {
+    content: "";
+    position: absolute;
+    top: 117%;
+    left: 1.5rem;
+    min-width: 20rem;
+    height: 2px;
+    background: var(--helpergrad);
+}
+
 /* navbar css */
 header {
     padding: 1rem;
@@ -64,12 +96,6 @@ header {
     font-family: times-new-roman;
     cursor: pointer;
     transition: all 0.3s linear;
-}
-}
-
-.search {
-    padding: 5px;
-    margin-top: 10px;
 }
 
 .search input {
