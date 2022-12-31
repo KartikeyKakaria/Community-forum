@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&display=swap');
+
+/* heading section */
+.heading {
+    width: 100vw;
+    background: var(--helpergrad2);
+    text-align: center;
+}
+
+.Heading {
+    font-size: 4.8rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* threads section */
+.section-threads {
+    background: var(--tintgrad);
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    flex-direction: column;
+}
+
+.threads {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.thread {
+    margin-bottom: 2rem;
+}
+
+.thread a {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--black);
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s linear;
+}
+
+.thread a::after {
+    content: "";
+    position: absolute;
+    top: 15%;
+    right: -4%;
+    height: 0;
+    width: 0;
+    border-bottom: 2px solid var(--helper2);
+    border-right: 2px solid var(--helper2);
+    transition: all 0.3s linear;
+}
+
+.thread a:hover {
+    color: var(--helper)
+}
+
+.thread a:hover:after {
+    height: 80%;
+    width: 80%;
+}
+
+.thread p {
+    margin-top: 1rem;
+}
+
+/* top topics section  */
+
+.section-topTopics {
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
