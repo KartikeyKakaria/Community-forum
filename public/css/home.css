@@ -119,7 +119,9 @@
     background-color:var(--tint);
 }
 .topics{
-    display:flex;
-    gap:2.3rem;
-    align-items:center;
+    padding:2px!important;
+    margin-top:5rem;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap:1rem;
 }
