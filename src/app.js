@@ -40,6 +40,17 @@ class responseData {
     }
 }
 
+class jsonData{
+    constructor(success, data){
+        this.success = success;
+        if(success){
+            this.data = data;
+        }else{
+            this.data = {msg:"We are currently facing some technichal issues, we are sorry for the inconvenience caused. "}
+        }
+    }
+}
+
 //my Routers
 app.get("/", (req, res) => {
     res.render("index");
@@ -49,6 +60,16 @@ app.get("/signup", (req, res) => {
 })
 app.get("/login", (req, res) => {
     res.render("login")
+})
+app.get('/getTopics',async(req,res)=>{
+    let rep;
+    try{
+        const topics = await TOPIC.find();
+        rep= new jsonData(true, topics);
+    }catch(err){
+        rep = new jsonData(false, err);
+    }
+    res.send(rep);
 })
 app.get("/me", authUser, (req, res) => {
     console.log(req.user)
