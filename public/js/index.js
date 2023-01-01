@@ -38,7 +38,7 @@ function isCookieThere() {
     return result;
 }
 function shortenString(str, link){
-    return str.slice(0,158)+`<a style="color:black;text-decoration:none;" href=${link}>...</a>`
+    return str.slice(0,158)+`<a style="color:white;text-decoration:none;" href=${link}>...</a>`
 }
 function updateNavbar() {
     const links = document.querySelector('.links');

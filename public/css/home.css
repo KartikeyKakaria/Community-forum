@@ -86,13 +86,16 @@
     padding:1rem;
     border-radius:6px;
     background-color:white;
+    background-repeat:no-repeat;
+    background-size:cover;
     box-shadow:2px 2px 5px black;
 }
 
 .topic a{
     font-size:1.8rem;
+    font-weight:700;
     margin-bottom:12px;
-    color:black;
+    color:var(--white);
     text-decoration:none;
     position:relative;
     transition:all 0.3s linear;
@@ -113,7 +116,10 @@
 .topic a:hover:after{
     width:100%;
 }
-
+.topic p{
+    color:white;
+    text-shadow:2px 2px black;
+}
 /* topics section */
 .section-topics{
     background-color:var(--tint);
