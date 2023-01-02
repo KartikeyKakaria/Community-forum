@@ -132,6 +132,7 @@ header {
 .links li {
     list-style-type: none;
     margin: 10px;
+    cursor:pointer;
 }
 
 .link {

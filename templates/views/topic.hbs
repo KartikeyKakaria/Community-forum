@@ -14,10 +14,15 @@
 
 <body>
     {{>navbar}}
-    <main style="" class="container">
-        <h1> {{topic.name}} </h1>
-        <p> {{topic.definition}} </p>
+    <main class="container">
+        <img src="../images/{{topic.imageName}}" alt="backgroundImage">
+        <div class="main-content">
+            <h1> {{topic.name}} </h1>
+            <p> {{topic.definition}} </p>
+        </div>
     </main>
 </body>
-
+<script>
+    updateNavbar();
+</script>
 </html>
