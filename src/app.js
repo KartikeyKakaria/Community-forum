@@ -12,7 +12,8 @@ const emailValidationRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*
 
 //getting the Models for database injection
 const USER = require('./schema/user');
-const TOPIC = require('./schema/topic')
+const TOPIC = require('./schema/topic');
+const QUESTION = require('./schema/question');
 
 //authentication variables (middleware)
 const authUser = require('./middleware/userAuth')
