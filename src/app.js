@@ -16,6 +16,7 @@ const TOPIC = require('./schema/topic')
 
 //authentication variables (middleware)
 const authUser = require('./middleware/userAuth')
+const authTopic = require('./middleware/topicAuth');
 
 //describing path to files and initalizing them
 const staticPath = join(__dirname, '../public');
@@ -40,13 +41,13 @@ class responseData {
     }
 }
 
-class jsonData{
-    constructor(success, data){
+class jsonData {
+    constructor(success, data) {
         this.success = success;
-        if(success){
+        if (success) {
             this.data = data;
-        }else{
-            this.data = {msg:"We are currently facing some technichal issues, we are sorry for the inconvenience caused. "}
+        } else {
+            this.data = { msg: "We are currently facing some technichal issues, we are sorry for the inconvenience caused. " }
         }
     }
 }
@@ -61,12 +62,12 @@ app.get("/signup", (req, res) => {
 app.get("/login", (req, res) => {
     res.render("login")
 })
-app.get('/getTopics',async(req,res)=>{
+app.get('/getTopics', async(req, res) => {
     let rep;
-    try{
+    try {
         const topics = await TOPIC.find();
-        rep= new jsonData(true, topics);
-    }catch(err){
+        rep = new jsonData(true, topics);
+    } catch (err) {
         rep = new jsonData(false, err);
     }
     res.send(rep);
@@ -77,9 +78,13 @@ app.get("/me", authUser, (req, res) => {
         user: req.user
     })
 })
+app.get("/topics/:name", authTopic, async(req, res) => {
+    console.log(req.topic);
+    res.render('topic', { topic: req.topic });
+})
 
 //logging out the user
-app.get("/logout", authUser, async (req, res) => {
+app.get("/logout", authUser, async(req, res) => {
     let rep;
     try {
         res.clearCookie("jwt")
@@ -93,7 +98,7 @@ app.get("/logout", authUser, async (req, res) => {
 })
 
 //Registering the user
-app.post('/register', async (req, res) => {
+app.post('/register', async(req, res) => {
     const data = req.body;
     let rep;
     if (data.name.length < 2 || data.name.length > 50) {
@@ -105,19 +110,19 @@ app.post('/register', async (req, res) => {
     } else {
         //code to push the user details into db
         const user = new USER({
-            name: data.name,
-            email: data.email,
-            address: data.address,
-            age: data.age,
-            number: data.number,
-            password: data.password
-        })
-        //code to generate a jwt token for user authentication
+                name: data.name,
+                email: data.email,
+                address: data.address,
+                age: data.age,
+                number: data.number,
+                password: data.password
+            })
+            //code to generate a jwt token for user authentication
         const token = await user.generateAuthToken();
         res.cookie("jwt", token, {
-            expires: new Date(Date.now() + 2628002880),
-        })
-        //
+                expires: new Date(Date.now() + 2628002880),
+            })
+            //
         const result = await user.save();
         if (result.name !== undefined) rep = new responseData(true, "Registered");
         else {
@@ -128,7 +133,7 @@ app.post('/register', async (req, res) => {
 })
 
 //logging the user in
-app.post('/signin', async (req, res) => {
+app.post('/signin', async(req, res) => {
     const data = req.body;
     let result, rep;
     if (data.idType == "email") {
@@ -156,7 +161,7 @@ app.post('/signin', async (req, res) => {
 })
 
 //editing user data
-app.post('/edit', authUser, async (req, res) => {
+app.post('/edit', authUser, async(req, res) => {
     const data = req.body;
     let rep;
     try {
@@ -190,7 +195,7 @@ app.post('/edit', authUser, async (req, res) => {
 })
 
 //changing user Password
-app.post('/changePassword', authUser, async (req, res) => {
+app.post('/changePassword', authUser, async(req, res) => {
     let rep;
     const data = req.body;
     const isMatch = await bcrypt.compare(data.oldPassword, req.user.password);
