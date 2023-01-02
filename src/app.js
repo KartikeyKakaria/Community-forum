@@ -214,4 +214,29 @@ app.post('/changePassword', authUser, async(req, res) => {
     res.send(rep)
 })
 
+//posting the user's question
+app.post('/ask',authUser,async(req,res)=>{
+    console.log('posting??');
+    
+    let rep;
+    const data = req.body;
+    try{
+        const question =  new QUESTION({
+            title:data.title,
+            description:data.description,
+            userId:req.user._id,
+            topic:data.topicName,
+        })
+        const result = await question.save();
+        if(result.title!==undefined){
+            rep = new jsonData(true, result)
+        }else{
+            rep = new jsonData(false, {msg:"We are sorry for the inconvenience caused"})
+        }
+    }catch(err){
+        rep = new jsonData(false,{msg:err})
+    }
+    res.send(rep)
+})
+
 app.listen(port, (err) => console.log(`listening at port ${port}`))

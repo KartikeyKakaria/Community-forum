@@ -11,7 +11,7 @@ const questionSchema = new mongoose.Schema({
     title: strType,
     description: strType,
     userId: strType,
-    topicId: strType,
+    topic: strType,
     upVotes: intType,
     downVotes: intType,
     answers: intType,

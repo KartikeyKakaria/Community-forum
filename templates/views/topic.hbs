@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/topic.css">
-    <script src="../js/index.js"></script>
-    <script src="../js/topic.js"></script>
+    <script defer src="../js/index.js"></script>
+    <script defer src="../js/question.js"></script>
     <title>{{topic.name}}</title>
 </head>
 
@@ -21,8 +21,15 @@
             <p> {{topic.definition}} </p>
         </div>
     </main>
+    <div class="container question-form">
+        <form class="form">
+            <span for="title">Title: </span>
+            <input type="text" class="form-input" id="title">
+            <span for="description">escription: </span>
+            <input type="text" class="form-input" id="description">
+            <button class="btn btn-ask" id="submit">Ask Question</button>
+        </form>
+    </div>
 </body>
-<script>
-    updateNavbar();
-</script>
+
 </html>
