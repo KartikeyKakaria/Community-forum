@@ -22,13 +22,22 @@
             <p> {{topic.definition}} </p>
         </div>
     </main>
-    <div class="container form question-form">
+    <section class="section form question-form">
         <span for="title">Title: </span>
         <input type="text" class="form-input" id="title">
         <span for="description">Description: </span>
         <input type="text" class="form-input" id="description">
         <button class="btn btn-ask hover-effect" id="submit">Ask Question</button>
-    </div>   
+    </section>   
+    <section class="section section-questions">
+        <h2 class="common-heading">Top Questions on this topic</h2>
+        <div class="questions">
+            <div class="question">
+                <a href="#">Thread 1</a>
+                <p>Posted by pqr: <span>5 minutes ago</span></p>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>

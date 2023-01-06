@@ -1,5 +1,14 @@
 updateNavbar()
 const submit = document.getElementById('submit');
+const displayQuestions = async()=>{
+    try{
+        const questions = await fetch('/getQuestions');
+        console.log(questions);
+    }catch(err){
+        console.log(err);
+    }    
+}
+displayQuestions();
 submit.addEventListener('click', e => {
     e.preventDefault();
     const topicName = document.querySelector('h1').innerText;

@@ -63,6 +63,7 @@ app.get("/signup", (req, res) => {
 app.get("/login", (req, res) => {
     res.render("login")
 })
+
 app.get('/getTopics', async(req, res) => {
     let rep;
     try {
@@ -73,6 +74,19 @@ app.get('/getTopics', async(req, res) => {
     }
     res.send(rep);
 })
+app.get('/getQuestions', async(req,res)=>{
+    let rep;
+    try{
+        const questions = await QUESTION.find();
+        rep =  new jsonData(true, questions.sort((a,b)=>{
+            return b.answers-a.answers;
+        }))
+    }catch(err){
+        rep =  new jsonData(false, {msg:err})
+    }
+    res.send(rep);
+})
+
 app.get("/me", authUser, (req, res) => {
     console.log(req.user)
     res.render("user", {
@@ -222,16 +236,18 @@ app.post('/ask',authUser,async(req,res)=>{
         const question =  new QUESTION({
             title:data.title,
             description:data.description,
-            userId:req.user._id,
+            user:req.user.name,
             topic:data.topicName,
         })
         const result = await question.save();
         if(result.title!==undefined){
             rep = new jsonData(true, result)
         }else{
+            console.log("?")
             rep = new jsonData(false, {msg:"We are sorry for the inconvenience caused"})
         }
     }catch(err){
+        console.log(err)
         rep = new jsonData(false,{msg:err})
     }
     res.send(rep)

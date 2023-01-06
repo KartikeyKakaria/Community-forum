@@ -10,7 +10,7 @@ const intType = {
 const questionSchema = new mongoose.Schema({
     title: strType,
     description: strType,
-    userId: strType,
+    user: strType,
     topic: strType,
     upVotes: intType,
     downVotes: intType,
