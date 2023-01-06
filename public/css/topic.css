@@ -2,6 +2,7 @@ main{
     height:40rem;
     overflow:hidden;
     position:relattive;
+    margin-bottom:0 !important;
 }
 
 main img{
@@ -36,4 +37,19 @@ main img{
     color:var(--black);
     text-shadow:2px 2px 5px  white;
     font-size:2.5rem;
+}
+
+/*question form section*/
+.question-form{
+    justify-content:space-around;
+    background-color:var(--tint);
+}
+
+.question-form span{
+    font-weight:600;
+    font-size:1rem;
+}
+
+#submit{
+    background:var(--helpergrad2)
 }

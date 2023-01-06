@@ -216,8 +216,6 @@ app.post('/changePassword', authUser, async(req, res) => {
 
 //posting the user's question
 app.post('/ask',authUser,async(req,res)=>{
-    console.log('posting??');
-    
     let rep;
     const data = req.body;
     try{

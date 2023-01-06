@@ -57,6 +57,17 @@ body {
     flex-direction: column;
 }
 
+.form-input{
+    border:2px solid black;
+    padding:5px;
+    border-radius:10px;
+    transition:all 0.3s linear;
+    margin-bottom:10px;
+}
+.form-input:hover, .form-input:focus{
+    outline:none;
+    border:2px solid rgba(80, 175, 250,0.6);
+}
 
 .common-heading {
     font-size: 2.8rem;

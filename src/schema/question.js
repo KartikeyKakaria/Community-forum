@@ -15,6 +15,10 @@ const questionSchema = new mongoose.Schema({
     upVotes: intType,
     downVotes: intType,
     answers: intType,
+    date:{
+        type:Date,
+        default: new Date()
+    }
 })
 
 const question = new mongoose.model("question", questionSchema)

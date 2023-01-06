@@ -38,7 +38,7 @@ body{
     transition:all 0.3s;
 }
 .form-login input:focus, .form-login input:hover{
-    border:2px solid rgb(0, 115, 255);
+    border:2px solid rgba(80, 175, 250,0.6);
 }
 
 .btn-login{
