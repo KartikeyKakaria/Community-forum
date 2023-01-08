@@ -3,7 +3,17 @@ const topicName = document.querySelector('h1').innerText;
 const submit = document.getElementById('submit');
 const displayQuestions = async()=>{
         await fetch(`/getQuestions/${topicName}`).then(rep=>rep.json())
-        .then(data=>console.log(data))
+        .then(data=>{
+            data.data.forEach(question=>{
+                const questionDiv = document.querySelector('.questions');
+                questionDiv.innerHTML+=`
+                <div class="question">
+                    <a href="/questions/${question._id}" >${question.title}</a>
+                    <p>Posted by ${question.user}: <span>${findTimeElapsed(question.date)}ago</span></p>
+                </div>
+                `
+            })
+        })
         .catch(err=>console.log(err));
 }
 displayQuestions();

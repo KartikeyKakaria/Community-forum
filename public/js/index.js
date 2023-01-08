@@ -46,6 +46,28 @@ function updateNavbar() {
         links.innerHTML = '<li><a class="link hover-effect" href="/">Home</a></li>        <li><a class="link hover-effect" href="/about">About</a></li><li><a class="link hover-effect" onclick="logout()">Logout</a></li><li><a class="link hover-effect" href="/me">Me</a></li>';
     }
 }
+
+function findTimeElapsed(date){
+    const currDate = new Date();
+    const postDate = new Date(date);
+    const diff = currDate.getTime() -  postDate.getTime();
+    if(diff>31557600000){
+        return `${Math.floor(diff/31557600000)} year/s`;
+    }else if(diff>2629800000){
+        return `${Math.floor(diff/2629800000)} month/s`;
+    }else if(diff>604800000){
+        return `${Math.floor(diff/604800000)} week/s`;
+    }else if(diff>86400000){
+        return `${Math.floor(diff/86400000)} day/s`;
+    }else if(diff>3600000){
+        return `${Math.floor(diff/3600000)} hour/s`;
+    }else if(diff>60000){
+        return `${Math.floor(diff/60000)} minute/s`;
+    }else{
+        return `${Math.floor(diff/1000)} second/s`
+    }
+}
+
 updateNavbar();
 const logout = () => {
     fetch('/logout')
