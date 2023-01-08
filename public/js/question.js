@@ -1,17 +1,14 @@
 updateNavbar()
+const topicName = document.querySelector('h1').innerText;
 const submit = document.getElementById('submit');
 const displayQuestions = async()=>{
-    try{
-        const questions = await fetch('/getQuestions');
-        console.log(questions);
-    }catch(err){
-        console.log(err);
-    }    
+        await fetch(`/getQuestions/${topicName}`).then(rep=>rep.json())
+        .then(data=>console.log(data))
+        .catch(err=>console.log(err));
 }
 displayQuestions();
 submit.addEventListener('click', e => {
     e.preventDefault();
-    const topicName = document.querySelector('h1').innerText;
     const title = getInpValue('title');
     const description = getInpValue('description');
     const data = { topicName, title, description };
@@ -24,6 +21,7 @@ submit.addEventListener('click', e => {
     }
     else {
         const params = new Params('json', data);
+        console.log(params)
         fetch('/ask', params)
             .then(rep => rep.json())
             .then(data => {
@@ -32,7 +30,7 @@ submit.addEventListener('click', e => {
                         title: "Posted!",
                         text: "Your question was posted successfully",
                         icon: "success",
-                    })
+                    }).then(()=>displayQuestions())
                 } else {
                     swal({
                         title: "Error",
@@ -42,11 +40,7 @@ submit.addEventListener('click', e => {
                 }
             })
             .catch(err => {
-                swal({
-                    title: "Error",
-                    text: err,
-                    icon: "warning",
-                })
+                window.location.href="/login"
             });
     }
 })

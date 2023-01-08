@@ -53,3 +53,29 @@ main img{
 #submit{
     background:var(--helpergrad2)
 }
+
+/*Questions section*/
+.section-questions{
+    background-color:var(--white);   
+}
+
+.questions{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:10px;
+}
+
+.question{
+    font-size:18px;
+}
+.question a{
+    color:var(--helper);
+    text-decoration:none;
+    font-size:20px;
+    transition:all 0.3s linear;
+}
+.question a:hover{
+    text-decoration:underline;
+    filter:brightness(83%);
+}

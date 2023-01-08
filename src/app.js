@@ -74,10 +74,10 @@ app.get('/getTopics', async(req, res) => {
     }
     res.send(rep);
 })
-app.get('/getQuestions', async(req,res)=>{
+app.get('/getQuestions/:topic', async(req,res)=>{
     let rep;
     try{
-        const questions = await QUESTION.find();
+        const questions = await QUESTION.find({topic:req.params.topic});
         rep =  new jsonData(true, questions.sort((a,b)=>{
             return b.answers-a.answers;
         }))
@@ -250,7 +250,8 @@ app.post('/ask',authUser,async(req,res)=>{
         console.log(err)
         rep = new jsonData(false,{msg:err})
     }
-    res.send(rep)
+    console.log(rep);
+    res.send(rep);
 })
 
 app.listen(port, (err) => console.log(`listening at port ${port}`))
