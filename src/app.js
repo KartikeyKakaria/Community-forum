@@ -18,6 +18,7 @@ const QUESTION = require('./schema/question');
 //authentication variables (middleware)
 const authUser = require('./middleware/userAuth')
 const authTopic = require('./middleware/topicAuth');
+const authQues = require('./middleware/quesAuth');
 
 //describing path to files and initalizing them
 const staticPath = join(__dirname, '../public');
@@ -96,6 +97,10 @@ app.get("/me", authUser, (req, res) => {
 app.get("/topics/:name", authTopic, async(req, res) => {
     console.log(req.topic);
     res.render('topic', { topic: req.topic });
+})
+app.get("/questions/:quesId", authQues, async(req,res)=>{
+    console.log(req.question)
+    res.render('question',{question:req.question})
 })
 
 //logging out the user

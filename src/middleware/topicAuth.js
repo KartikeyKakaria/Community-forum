@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const TOPIC = require("../schema/topic");
 
 const authTopic = async(req, res, next) => {

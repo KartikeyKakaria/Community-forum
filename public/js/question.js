@@ -2,19 +2,23 @@ updateNavbar()
 const topicName = document.querySelector('h1').innerText;
 const submit = document.getElementById('submit');
 const displayQuestions = async()=>{
+        const questionDiv = document.querySelector('.questions');
         await fetch(`/getQuestions/${topicName}`).then(rep=>rep.json())
         .then(data=>{
-            data.data.forEach(question=>{
-                const questionDiv = document.querySelector('.questions');
-                questionDiv.innerHTML+=`
-                <div class="question">
-                    <a href="/questions/${question._id}" >${question.title}</a>
-                    <p>Posted by ${question.user}: <span>${findTimeElapsed(question.date)}ago</span></p>
-                </div>
-                `
-            })
+            if(data.success){
+                data.data.forEach(question=>{
+                    questionDiv.innerHTML+=`
+                    <div class="question">
+                        <a href="/questions/${question._id}" >${question.title}</a>
+                        <p>Posted by ${question.user}: <span>${findTimeElapsed(question.date)}ago</span></p>
+                    </div>
+                    `
+                })
+            }else{
+                questionDiv.innerHTML =  data.data.msg;
+            }
         })
-        .catch(err=>console.log(err));
+        .catch(err=>questionDiv.innerHTML = err);
 }
 displayQuestions();
 submit.addEventListener('click', e => {
