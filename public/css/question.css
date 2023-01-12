@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;1,500&display=swap');
+
 .question{
     background-color:var(--tint);
     text-align:center;
@@ -33,4 +34,16 @@
     margin-top:1rem;
     margin-bottom:5px;
     font-size:2rem;
+}
+.section-form{
+    margin-top:2rem;
+}
+#answer{
+    background:var(--white);
+    padding:5px !important;
+    font-size:1.2rem;
+}
+
+#submit{
+    background-color:rgb(70,190,70);
 }
