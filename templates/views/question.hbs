@@ -4,11 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/question.css">
+    <script defer src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script defer src="../js/index.js"></script>
+    <script defer src="../js/questionPage.js"></script>
     <title>{{question.title}}</title>
 </head>
 <body>
-    <h1>{{question.title}}</h1>
-    <h2>{{question.description}}</h2>
-    <p>{{question.user}}</p>
+    {{>navbar}}
+    <div class="container">
+        <main class="question container">
+            <h1>{{question.title}}</h1><br>
+            <h2>{{question.description}}</h2>
+            <p>Posted by {{question.user}} <span id="date">{{question.date}}</span> </p>
+        </main>
+    </div>
 </body>
 </html>

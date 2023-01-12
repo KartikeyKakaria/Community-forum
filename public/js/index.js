@@ -18,6 +18,10 @@ class Params {
 function getInpValue(id) {
     return document.getElementById(id).value;
 }
+function randomColorRGB(){
+    const random = ()=> {return Math.floor((Math.random() * 250) + 100)}
+    return {r:random(),g:random(),b:random()}
+}
 function isEmpty(obj) {
     let result = false;
     for (i in obj) {
