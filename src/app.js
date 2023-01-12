@@ -14,6 +14,7 @@ const emailValidationRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*
 const USER = require('./schema/user');
 const TOPIC = require('./schema/topic');
 const QUESTION = require('./schema/question');
+const ANSWER = require('./schema/answer');
 
 //authentication variables (middleware)
 const authUser = require('./middleware/userAuth')
@@ -257,6 +258,12 @@ app.post('/ask',authUser,async(req,res)=>{
     }
     console.log(rep);
     res.send(rep);
+})
+
+app.post('/answer',authUser, async(req,res)=>{
+    console.log("yeah posting");
+    const data = req.body;
+    res.send(data)
 })
 
 app.listen(port, (err) => console.log(`listening at port ${port}`))
