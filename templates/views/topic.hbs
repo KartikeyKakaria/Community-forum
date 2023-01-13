@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/topic.css">
+    <script defer src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script defer src="../js/index.js"></script>
+    <script defer src="../js/question.js"></script>
     <title>{{topic.name}}</title>
 </head>
+
 <body>
     {{>navbar}}
-    <h1> {{topic.name}}</h1>
-    <br><br>
-    <form id="postQues">
-        <h4>Heading:</h4>
-        <input id="heading" type="text"><br>
-        <h4>Description:</h4>
-        <textarea name="desc" id="desc" cols="30" rows="10"></textarea>
-        <input type="hidden" value={{topic.id}} id="topicid">
-        <input type="hidden" value={{user._id}} id="userid"><br>
-        <button id="submit">Post Question</button>
-    </form>
-    <br><hr>
-    <h2>Questions:</h2>
-    <ul id="questions"></ul>
+    <main class="container">
+        <img src="../images/{{topic.imageName}}" alt="backgroundImage">
+        <div class="main-content">
+            <h1> {{topic.name}} </h1>
+            <p> {{topic.definition}} </p>
+        </div>
+    </main>
+    <section class="section form question-form">
+        <span for="title">Title: </span>
+        <input type="text" class="form-input" id="title">
+        <span for="description">Description: </span>
+        <input type="text" class="form-input" id="description">
+        <button class="btn btn-ask hover-effect" id="submit">Ask Question</button>
+    </section>   
+    <section class="section section-questions">
+        <h2 class="common-heading">Top Questions on this topic</h2>
+        <div class="questions">
+            
+        </div>
+    </section>
 </body>
-<script src="../js/index.js"></script>
-<script src="../js/topic.js"></script>
-<script>
-    updateNavbar()
-</script>
+
 </html>

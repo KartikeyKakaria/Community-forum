@@ -1,62 +1,102 @@
-const updateNavbar = () => {
-    const loginlink = document.getElementById("login")
-    const userlink = document.getElementById("user")
-    const logoutlink = document.getElementById("logout")
-    const registerlink = document.getElementById("register")
-    const params = {
-        method: 'post',
-        headers: {
-            'Content-type': "application/json"
-        },
-        body: JSON.stringify({ data: "jwt" })
-    }
-    fetch("/isCookieThere", params)
-        .then(response => response.text())
-        .then(data => {
-            console.log(data)
-            if (data == "") {
-                logoutlink.style.display = "none"
-                userlink.style.display = "none"
-                loginlink.style.display = "inline"
-                registerlink.style.display = "inline"
-            } else {
-                logoutlink.style.display = "inline"
-                userlink.style.display = "inline"
-                loginlink.style.display = "none"
-                registerlink.style.display = "none"
+class Params {
+    constructor(type, data) {
+        let headers;
+        if (type == 'json') {
+            headers = {
+                'Content-type': 'application/json'
             }
-        })
-        .catch(err => console.error(err))
-}
-const cookieExists = function() {
-    const params = {
-        method: 'post',
-        headers: {
-            'Content-type': "application/json"
-        },
-        body: JSON.stringify({ data: "token" })
-    }
-    return fetch("/isCookieThere", params)
-        .then(response => response.text())
-        .then(data => {
-            if (data.toString() == "") {
-                return false;
-            } else {
-                return true;
+        } else if (type == 'html' || type == 'text') {
+            headers = {
+                'Content-type': 'text/html'
             }
-        })
-        .catch(err => console.error(err))
-}
-const getUserName = function (id) {
-    const params = {
-        method: 'post',
-        headers: {
-            'Content-type': "application/json"
-        },
-        body: JSON.stringify({ id:id })
+        }
+        this.method = 'post';
+        this.headers = headers;
+        this.body = JSON.stringify(data);
     }
-    return fetch("/getUsername",params)
-    .then(rep=>rep.text())
-    .then(data=>{return data})
-    .catch(err=>{return err})
+}
+function getInpValue(id) {
+    return document.getElementById(id).value;
+}
+function randomColorRGB(){
+    const random = ()=> {return Math.floor((Math.random() * 250) + 100)}
+    return {r:random(),g:random(),b:random()}
+}
+function isEmpty(obj) {
+    let result = false;
+    for (i in obj) {
+        if (obj[i] === '') {
+            result = true;
+        }
+    }
+    return result;
+}
+function includes(mainStr, includedStr) {
+    return mainStr.indexOf(includedStr) !== -1;
+}
+
+function isCookieThere() {
+    const cookies = document.cookie;
+    let result = false;
+    if (includes(cookies, "jwt")) result = true;
+    return result;
+}
+function shortenString(str, link){
+    return str.slice(0,158)+`<a style="color:white;text-decoration:none;" href=${link}>...</a>`
+}
+function updateNavbar() {
+    const links = document.querySelector('.links');
+    if (isCookieThere()) {
+        links.innerHTML = '<li><a class="link hover-effect" href="/">Home</a></li>        <li><a class="link hover-effect" href="/about">About</a></li><li><a class="link hover-effect" onclick="logout()">Logout</a></li><li><a class="link hover-effect" href="/me">Me</a></li>';
+    }
+}
+
+function findTimeElapsed(date){
+    const currDate = new Date();
+    const postDate = new Date(date);
+    const diff = currDate.getTime() -  postDate.getTime();
+    if(diff>31557600000){
+        return `${Math.floor(diff/31557600000)} year/s`;
+    }else if(diff>2629800000){
+        return `${Math.floor(diff/2629800000)} month/s`;
+    }else if(diff>604800000){
+        return `${Math.floor(diff/604800000)} week/s`;
+    }else if(diff>86400000){
+        return `${Math.floor(diff/86400000)} day/s`;
+    }else if(diff>3600000){
+        return `${Math.floor(diff/3600000)} hour/s`;
+    }else if(diff>60000){
+        return `${Math.floor(diff/60000)} minute/s`;
+    }else{
+        return `${Math.floor(diff/1000)} second/s`
+    }
+}
+
+updateNavbar();
+const logout = () => {
+    fetch('/logout')
+        .then(rep => rep.json())
+        .then(result => {
+            if (result.success) {
+                swal({
+                    title: "Logged out",
+                    text: "Your account was logged out successfully",
+                    icon: "success",
+                })
+                    .then(() => window.location.href = "/login");
+            } else {
+                swal({
+                    title: "Error",
+                    text: "Due to some technichal issues, we couldn't log you out!. We are sorry for the inconvenience",
+                    icon: "warning",
+                })
+            }
+        }).catch(err => {
+            swal({
+                title: "Error",
+                text: "Due to some technichal issues, we couldn't log you out!. We are sorry for the inconvenience",
+                icon: "warning",
+            })
+            console.log(err);
+        })
 }

@@ -1,0 +1,86 @@
+body {
+    background-color: #f2f2f2;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top:10rem;
+    margin-bottom:10rem;
+}
+
+.head {
+    padding: 40px 200px;
+    background-color: white;
+    border-radius: 5px;
+    background-image: var(--helpergrad);
+    box-shadow: var(--shadow);
+}
+
+.detailsSection {
+    background-color: white;
+    padding: 40px 40px;
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    margin:50px;
+}
+.details{
+    font-size:20px;
+    width:30vw;
+}
+.detail{
+    list-style-type:none;
+    margin-top:15px;
+}
+.detail span{
+    displaY:block;
+    border-bottom:1px solid black;
+    margin-top:6px;
+}
+
+.changePassword{
+    padding:25px;
+    margin-bottom:40px;
+    background-color:white;
+    box-shadow:var(--shadow);
+    border-radius:6px;
+    font-size:20px;
+}
+
+.changePassword h3{
+    font-family:times-new-roman;
+    display:inline;
+    font-weight:750px;
+}
+
+.changePassword input{
+    padding:5px;
+    border-radius:6px;
+    font-size:20px;
+    border:var(--smartbordercolor);
+    transition:all 0.3s linear;
+}
+
+.changePassword input:focus, .changePassword input:active{
+    outline:none;
+    border:var(--smartfocuscolor);
+}
+.btn-password{
+    margin-top:10px !important;
+    background-image:var(--helpergrad);
+    color:#f5f4a5;
+}
+.editSection{
+    cursor:pointer;
+}
+.edit{
+    cursor:pointer;
+    background-color:white;
+    border:none;
+    outline:none;
+    font-size:18px;
+}

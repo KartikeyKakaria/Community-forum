@@ -1,37 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{question.heading}}</title>
     <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/question.css">
+    <script defer src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script defer src="../js/index.js"></script>
+    <script defer src="../js/questionPage.js"></script>
+    <script defer src="../js/answer.js"></script>
+    <title>{{question.title}}</title>
 </head>
-
 <body>
     {{>navbar}}
-    <h1 id="heading">{{question.heading}}</h1>
-    <p id="description">{{question.description}}</p>
-    <input type="hidden" value={{question.userId}} id="quesId">
-    <input type="hidden" value={{question._id}} id="questionId">
-    <div id="form">
-        <textarea name="answer" id="answer" cols="30" rows="10"></textarea>
-        <button id="submit">Answer</button>
+    <div class="container">
+        <main class="question container">
+            <h1>{{question.title}}</h1><br>
+            <h2>{{question.description}}</h2>
+            <p>Posted by {{question.user}} <span id="date">{{question.date}}</span> </p>
+        </main>
+        <section class="section section-form">
+            <h2 class="common-heading">Enter Your Answer</h2>
+            <textarea id="answer" cols="60" rows="8" class="form-input"></textarea><br>
+            <button id="submit" class="btn hover-effect">Answer</button>
+        </section>
     </div>
-    <br><br>
-    <hr>
-    <ul id="answers"></ul>
 </body>
-<script src="../js/index.js"></script>
-<script src="../js/comment.js"></script>
-<script src="../js/question.js" reder></script>
-<script src="../js/answer.js" ></script>
-
 </html>
-<script>
-    updateNavbar()
-
-    
-</script>

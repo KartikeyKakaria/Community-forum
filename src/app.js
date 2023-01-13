@@ -1,243 +1,281 @@
-require("dotenv").config(); //.env configurtaion
-//essential variables for code
-const express = require('express');
-const hbs = require('hbs');
-const path = require('path');
-const bcrypt = require('bcryptjs')
-const cookieParser = require('cookie-parser');
-const User = require("./models/users")
-const auth = require("./middleware/auth")
-const Topic = require("./models/topics");
-const Question = require("./models/questions");
-const Answer = require("./models/answer");
-const Comment = require("./models/comments");
-const jwt=require("jsonwebtoken")
-const mongoose = require("mongoose");
-
-// const crud = require("./crud")
-const app = express();
-const port = process.env.PORT || 8000;
-
-//paths for serving files
-const staticPath = path.join(__dirname, '../public');
-const templatePath = path.join(__dirname, '../templates/views');
-const partialsPath = path.join(__dirname, '../templates/partials');
+require("dotenv").config();
 require("./db/conn");
+//importing modules and defining constants
+const express = require("express");
+const hbs = require("hbs");
+const bcrypt = require("bcryptjs");
+const cookieParser = require("cookie-parser");
+const join = require("path").join;
+const app = express();
+const port = process.env.PORT || 3000;
+const emailValidationRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-//serving files
-app.use(express.json())
+//getting the Models for database injection
+const USER = require('./schema/user');
+const TOPIC = require('./schema/topic');
+const QUESTION = require('./schema/question');
+const ANSWER = require('./schema/answer');
+
+//authentication variables (middleware)
+const authUser = require('./middleware/userAuth')
+const authTopic = require('./middleware/topicAuth');
+const authQues = require('./middleware/quesAuth');
+
+//describing path to files and initalizing them
+const staticPath = join(__dirname, '../public');
+const templatePath = join(__dirname, '../templates/views');
+const partialsPath = join(__dirname, '../templates/partials');
+app.use(express.json());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(staticPath));
 app.set("view engine", "hbs");
 app.set("views", templatePath);
-hbs.registerPartials(partialsPath)
+hbs.registerPartials(partialsPath);
 
-//routers
+class responseData {
+    constructor(success, type) {
+        this.success = success;
+        if (success) {
+            this.msg = `${type} successfully`;
+        } else {
+            this.msg = `Please enter valid ${type}`;
+        }
+    }
+}
+
+class jsonData {
+    constructor(success, data) {
+        this.success = success;
+        if (success) {
+            this.data = data;
+        } else {
+            this.data = { msg: "We are currently facing some technichal issues, we are sorry for the inconvenience caused. " }
+        }
+    }
+}
+
+//my Routers
 app.get("/", (req, res) => {
     res.render("index");
 })
-app.get("/register", (req, res) => {
-    res.render("register")
+app.get("/signup", (req, res) => {
+    res.render("signup");
 })
 app.get("/login", (req, res) => {
     res.render("login")
 })
-app.get("/user", auth.authUser, (req, res) => {
-    res.render("user")
-})
-app.post("/user", auth.authUser, (req, res) => {
-    res.send(req.user);
-})
-app.get("/topics",(req,res)=>{
-    res.render("topics")
-})
 
-//get question info
-app.get("/getQuestions",auth.authQues, async(req,res)=>{
-    const questions = await Question.find();
-    res.send([questions,req.isUser])
-})
-app.post("/getAnswers",auth.authQues, async(req,res)=>{
-    const answers = await Answer.find({quesId:req.body.questionid});
-    console.log(req.body.questionid)
-    res.send([answers,req.isUser])
-})
-app.post("/getComments",async(req,res)=>{
-    result = await Comment.find({answerId:req.body.id})
-    res.send(result);
-    console.log(result)
-})
-
-//get user's name by id
-app.post("/getUsername",async(req,res)=>{
-    const userid = req.body.id;
-    const result = await User.find({_id:userid})
-    res.send(result[0].name)
-})
-
-//display pages for each topic
-app.get("/topics/:name", async(req, res)=>{
-    const requestedTopicName = req.params.name
-    const TopicData = await Topic.find({name:requestedTopicName})
-    if(TopicData.length>0){
-        res.render("topic",{topic:TopicData[0], user:req.user})
+app.get('/getTopics', async(req, res) => {
+    let rep;
+    try {
+        const topics = await TOPIC.find();
+        rep = new jsonData(true, topics);
+    } catch (err) {
+        rep = new jsonData(false, err);
     }
-    else{
-        res.send("404 not found")
+    res.send(rep);
+})
+app.get('/getQuestions/:topic', async(req,res)=>{
+    let rep;
+    try{
+        const questions = await QUESTION.find({topic:req.params.topic});
+        rep =  new jsonData(true, questions.sort((a,b)=>{
+            return b.answers-a.answers;
+        }))
+    }catch(err){
+        rep =  new jsonData(false, {msg:err})
     }
-    // console.log(TopicData[0], req.params.name)
+    res.send(rep);
 })
 
-app.get("/questions/:id", async(req,res)=>{
-    const requestedQuestionId = req.params.id;
-    const QuestionData = await Question.find({_id:requestedQuestionId})
-    if(QuestionData.length>0){
-        res.render("question",{question:QuestionData[0]})
-    }
+app.get("/me", authUser, (req, res) => {
+    console.log(req.user)
+    res.render("user", {
+        user: req.user
+    })
+})
+app.get("/topics/:name", authTopic, async(req, res) => {
+    console.log(req.topic);
+    res.render('topic', { topic: req.topic });
+})
+app.get("/questions/:quesId", authQues, async(req,res)=>{
+    console.log(req.question)
+    res.render('question',{question:req.question})
 })
 
-//logout user
-app.get("/logout", auth.authUser, async(req, res) => {
+//logging out the user
+app.get("/logout", authUser, async(req, res) => {
+    let rep;
     try {
         res.clearCookie("jwt")
-        req.user.tokens = req.user.tokens.filter((element) => {
-            return element.token !== req.token
-        })
-        console.log("logout successfully")
-        await req.user.save();
-        res.render("login")
+        console.log("logout successfully");
+        rep = new responseData(true, "Logged out")
     } catch (error) {
-        res.status(500).send(error)
-
+        console.log(error)
+        rep = new responseData(false, error);
     }
+    res.send(rep);
 })
 
-//register user
-app.post("/register", async(req, res) => {
-    try {
-        const password = req.body.password;
-        const confpassword = req.body.confpassword;
-        if (password === confpassword) {
-            const userdata = new User({
-                name: req.body.name,
-                email: req.body.email,
-                number: req.body.number,
-                address: req.body.address,
-                age: req.body.age,
-                password: password,
-            });
-
-            const token = await userdata.generateAuthToken();
-            // console.log('the token is' + token)
-
-            res.cookie("jwt", token, {
-                expires: new Date(Date.now() + 2628002880),
-                // httpOnly:true
+//Registering the user
+app.post('/register', async(req, res) => {
+    const data = req.body;
+    let rep;
+    if (data.name.length < 2 || data.name.length > 50) {
+        rep = new responseData(false, "name")
+    } else if (!data.email.match(emailValidationRegex)) {
+        rep = new responseData(false, "email");
+    } else if (data.number.length !== 10) {
+        rep = new responseData(false, "mobile number");
+    } else {
+        //code to push the user details into db
+        const user = new USER({
+                name: data.name,
+                email: data.email,
+                address: data.address,
+                age: data.age,
+                number: data.number,
+                password: data.password
             })
-
-
-            const result = await userdata.save();
-            console.log(result)
-            res.send(result);
-        } else {
-            res.status(400).send("paswords dont match")
-        }
-    } catch (err) {
-        console.log(err)
-        res.status(400).send(err)
-    }
-})
-
-//login user
-app.post("/login", async(req, res) => {
-    try {
-        const email = req.body.email;
-        const password = req.body.password;
-        const result = await User.findOne({ email: email });
-        const isMatch = await bcrypt.compare(password, result.password);
-
-        // console.log(token)
-
-
-        if (isMatch) {
-            const token = await result.generateAuthToken()
-            res.cookie("jwt", result.tokens[0].token, {
+            //code to generate a jwt token for user authentication
+        const token = await user.generateAuthToken();
+        res.cookie("jwt", token, {
                 expires: new Date(Date.now() + 2628002880),
-            });
-
-            console.log("The cookie is " + req.cookies.jwt)
-            res.status(200).send("valid yay")
-        } else {
-            res.status(400).send("invalid credentials");
-
+            })
+            //
+        const result = await user.save();
+        if (result.name !== undefined) rep = new responseData(true, "Registered");
+        else {
+            rep = new responseData(false, "details");
         }
+    }
+    res.send(rep);
+})
+
+//logging the user in
+app.post('/signin', async(req, res) => {
+    const data = req.body;
+    let result, rep;
+    if (data.idType == "email") {
+        result = await USER.find({ email: data.identifier });
+    } else {
+        result = await USER.find({ name: data.identifier });
+    }
+    if (result.length == 1) {
+        const isValid = await bcrypt.compare(data.password, result[0].password);
+        console.log(result[0].password)
+        console.log(isValid, data.password)
+        if (isValid) {
+            res.cookie("jwt", result[0].tokens[0].token, {
+                expires: new Date(Date.now() + 2628002880),
+            })
+            rep = new responseData(true, "Loginned");
+        } else {
+            rep = new responseData(false, "credentials");
+        }
+    } else {
+        rep = new responseData(false, "crednetials");
+    }
+    res.send(rep)
+
+})
+
+//editing user data
+app.post('/edit', authUser, async(req, res) => {
+    const data = req.body;
+    let rep;
+    try {
+        if (data.name.length < 2 || data.name.length > 50) {
+            rep = new responseData(false, "name")
+        } else if (!data.email.match(emailValidationRegex)) {
+            rep = new responseData(false, "email");
+        } else if (data.number.length !== 10) {
+            rep = new responseData(false, "mobile number");
+        } else {
+            const result = await USER.updateOne({ _id: req.user._id }, {
+                $set: {
+                    name: data.name,
+                    email: data.email,
+                    age: data.age,
+                    address: data.address,
+                    number: data.number,
+                }
+            })
+            if (result.modifiedCount < 1) {
+                rep = new responseData(false, "details")
+            } else {
+                rep = new responseData(true, "Updated")
+            }
+        }
+
     } catch (error) {
-        res.status(400).send("invalid login credentials")
+        rep = new responseData(false, "details")
     }
+    res.send(rep);
 })
 
-//post the question enetere by user
-app.post("/postQues",async(req,res)=>{
+//changing user Password
+app.post('/changePassword', authUser, async(req, res) => {
+    let rep;
+    const data = req.body;
+    const isMatch = await bcrypt.compare(data.oldPassword, req.user.password);
+    if (isMatch) {
+        const newPassword = await bcrypt.hash(data.newPassword, 4);
+        const result = await USER.updateOne({ _id: req.user._id }, { $set: { password: newPassword } });
+        if (result.modifiedCount == 1) {
+            rep = new responseData(true, "Password changed")
+        } else {
+            rep = new responseData(false, "Passwrod")
+        }
+    } else {
+        rep = new responseData(false, "Password")
+    }
+    res.send(rep)
+})
+
+//posting the user's question
+app.post('/ask',authUser,async(req,res)=>{
+    let rep;
+    const data = req.body;
     try{
-        const quesdata = new Question({
-            heading:req.body.heading,
-            description:req.body.desc,
-            userId:req.body.userid,
-            topicId:req.body.topicid,
+        const question =  new QUESTION({
+            title:data.title,
+            description:data.description,
+            user:req.user.name,
+            topic:data.topicName,
         })
-        const result = await quesdata.save();
-        res.send(result)
+        const result = await question.save();
+        if(result.title!==undefined){
+            rep = new jsonData(true, result)
+        }else{
+            console.log("?")
+            rep = new jsonData(false, {msg:"We are sorry for the inconvenience caused"})
+        }
     }catch(err){
-        res.status(400).send(err)
+        console.log(err)
+        rep = new jsonData(false,{msg:err})
     }
+    console.log(rep);
+    res.send(rep);
 })
 
-
-//post the answer given by user
-app.post("/postAnswer",async(req,res)=>{
-    const answer = req.body;
-    const token = req.cookies.jwt;
-    const verifyuser = jwt.verify(token, process.env.SECRET_KEY);
-    answer.userId = verifyuser._id;
-    const postAnswer = new Answer({
-        description:answer.answer,
-        userId:answer.userId,
-        quesId:answer.quesId,
-        upvotes:0,
-        downvotes:0,
-    })
-    const result = await postAnswer.save();
-    res.send(result);
+app.post('/answer',authUser, async(req,res)=>{
+    let rep;
+    try{
+        const {answer, questionId} = req.body;
+        const {name} = req.user;
+        const postAnswer =  new ANSWER({
+            text:answer,
+            questionId,
+            user:name,
+        })
+        const result = await postAnswer.save();
+        rep = new responseData(true,":)")
+    }catch(err){
+        rep = new responseData(false, `${err}`)
+    }
+    res.send(rep)
 })
 
-app.post("/postComment", async(req,res)=>{
-    const token = req.cookies.jwt;
-    const userid = jwt.verify(token, process.env.SECRET_KEY);
-    const comment = req.body;
-    const PostComment = new Comment({
-        description:comment.comment,
-        userId:userid,
-        answerId:comment.answerId,
-        upvotes:0,
-        downvotes:0
-    })
-    const result = await PostComment.save();
-    res.send(result)
-})
-//get topics
-app.post("/", async(req, res)=>{
-    const Data = await Topic.find();
-    
-    res.send(Data);
-})
-
-//telling the server that cookie exists or not
-app.post("/isCookieThere", async(req, res) => {
-    res.send(req.cookies.jwt)
-})
-
-//listening to the server
-app.listen(port, () => {
-    console.log("listening at port " + port)
-})                                                                                
+app.listen(port, (err) => console.log(`listening at port ${port}`))

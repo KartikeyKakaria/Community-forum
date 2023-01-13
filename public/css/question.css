@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;1,500&display=swap');
+
+.question{
+    background-color:var(--tint);
+    text-align:center;
+    box-shadow:2px 2px 5px black;
+    gap:5px;
+}
+
+.question h1{
+    margin-bottom:1rem;
+    font-size:3.6rem;
+    display:inline;
+    position:relative;
+    font-family: 'Open Sans', sans-serif;
+    cursor:pointer;
+    transition:all 0.3s linear;
+}
+
+.question h1::after{
+    content:"";
+    position:absolute;
+    height:5px;
+    width:100%;
+    background:var(--helpergrad2);
+    bottom:-13%;
+    right:0;
+}
+.question h1:hover{
+    color:var(--helper2)
+}
+
+.question h2{
+    margin-top:1rem;
+    margin-bottom:5px;
+    font-size:2rem;
+}
+.section-form{
+    margin-top:2rem;
+}
+#answer{
+    background:var(--white);
+    padding:5px !important;
+    font-size:1.2rem;
+}
+
+#submit{
+    background-color:rgb(70,190,70);
+}

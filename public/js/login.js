@@ -1,35 +1,35 @@
-window.onload = async() => {
+if (isCookieThere()) {
+    window.location.href = "/me";
+} else {
     updateNavbar();
-    const loggedIn = await cookieExists();
-    if (loggedIn) {
-        window.location.href = "/user";
-    } else {
-        document.getElementById('submit').addEventListener('click', (e) => {
-            e.preventDefault()
-            const email = document.getElementById('email').value
-            const password = document.getElementById('password').value
-            const data = {
-                email: email,
-                password: password,
-            }
-            const params = {
-                method: 'post',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }
-            fetch("/login", params)
-                .then(rep => rep.text())
-                .then((data) => {
-                    if (data == "valid yay") {
-                        window.location.href = "/user";
-                    } else {
-                        alert(data)
-                    }
-                })
-                .catch(err => console.log(err))
-        })
+    const login = document.getElementById("submit");
+    login.addEventListener('click', () => {
+        const identifier = getInpValue('identifier');
+        const password = getInpValue('password');
+        let idType = "name";
+        if (includes(identifier, "@") && includes(identifier, ".")) {
+            idType = "email";
+        }
+        const params = new Params('json', { idType, identifier, password })
+        fetch('/signin', params)
+            .then(rep => rep.json())
+            .then(data => {
+                if (data.success) {
+                    swal({
+                        title: "Loginned",
+                        text: "You were loginned successfully",
+                        icon: "success",
+                    })
+                        .then(() => { window.location.href = "/me" })
+                } else {
+                    swal({
+                        title: "Invalid Credentials",
+                        text: "Please enter valid details",
+                        icon: "warning"
+                    })
+                }
+            })
+            .catch(err => console.log(err))
 
-    }
+    })
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/signup.css">
+    <script defer src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script defer src="../js/index.js"></script>
+    <script defer src="../js/signup.js"></script>
+</head>
+<body>
+    {{>navbar}}
+    <div class="container">
+        <h1>Register</h1>
+        <div class="form form-register">
+            <input type="text" class="register-input" placeholder="Name" id="name">
+            <span class="span-animation"></span>
+            <input type="text" class="register-input hide" placeholder="Email" id="email">
+            <span class="hide span-animation"></span>
+            <input type="text" class="register-input hide" placeholder="Address" id="address">
+            <span class="hide span-animation"></span>
+            <input type="number" class="register-input hide" placeholder="Age" id="age">
+            <span class="hide span-animation"></span>
+            <input type="number" class="register-input hide" placeholder="Number" id="number">
+            <span class="hide span-animation"></span>
+            <input type="password" class="register-input hide" placeholder="Password" id="password">
+            <span class="hide span-animation"></span>
+            <input type="password" class="register-input hide" placeholder="Confirm Password" id="confpassword"><span class="hide span-animation"></span>
+        </div>
+        <button class="btn btn-register hover-effect" id="submit">Next</button>
+    </div>
+</body>
+</html>

@@ -1,2 +1,7 @@
 node_modules
+public/images
+test
+.vscode
 .env
+git.sh
+typescript

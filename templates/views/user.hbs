@@ -5,28 +5,43 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/register.css">
-    <link rel="stylesheet" href="css/index.css">
+    <title>{{user.name}}</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <script defer src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script defer src="../js/index.js"></script>
+    <script defer src="../js/user.js"></script>
 </head>
 
 <body>
     {{>navbar}}
-    <h1 id="title">You</h1>
+    <div class="container main">
+        <div class="head">
+            <h1>{{user.name}}</h1>
+        </div>
+        <hr>
+        <div class="detailsSection">
+            <div class="details">
+                <div class="editSection">
+                    <button class="edit" id="edit">&#x270E;</button>
+                </div>
+                <ul>
+                    <li class="detail">Name: <span>{{user.name}}</span></li>
+                    <li class="detail">Email: <span>{{user.email}}</span></li>
+                    <li class="detail">Age: <span>{{user.age}}</span></li>
+                    <li class="detail">Address: <span>{{user.address}}</span></li>
+                    <li class="detail">Number: <span>{{user.number}}</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="changePassword">
+            <h3>Old password:</h3>
+            <input id="oldPassword" type="password" placeholder="Old password"><br><br>
+            <h3>Change password:</h3>
+            <input id="newPassword" type="password" placeholder="New password"><br>
+            <button id="changePassword" class="btn hover-effect btn-password">Change Password</button>
+        </div>
+    </div>
 </body>
-<script src="js/index.js"></script>
-<script src="js/user.js"></script>
-<h1>Name:</h1>
-<h2 id="name"></h2><br>
-<h1>Email:</h1>
-<h2 id="email"></h2><br>
-<h1>Number:</h1>
-<h2 id="number"></h2><br>
-<h1>Age:</h1>
-<h2 id="age"></h2><br>
-<h1>Address:</h1>
-<h2 id="address"></h2><br>
-
 
 </html>
