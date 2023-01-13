@@ -261,9 +261,21 @@ app.post('/ask',authUser,async(req,res)=>{
 })
 
 app.post('/answer',authUser, async(req,res)=>{
-    console.log("yeah posting");
-    const data = req.body;
-    res.send(data)
+    let rep;
+    try{
+        const {answer, questionId} = req.body;
+        const {name} = req.user;
+        const postAnswer =  new ANSWER({
+            text:answer,
+            questionId,
+            user:name,
+        })
+        const result = await postAnswer.save();
+        rep = new responseData(true,":)")
+    }catch(err){
+        rep = new responseData(false, `${err}`)
+    }
+    res.send(rep)
 })
 
 app.listen(port, (err) => console.log(`listening at port ${port}`))

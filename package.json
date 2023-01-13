@@ -2,7 +2,7 @@
     "name": "registration",
     "version": "1.1.0",
     "description": "Registration form",
-    "main": "index.js",
+    "main": "src/app.js",
     "scripts": {
         "start": "nodemon src/app.js",
         "startSimple": "node src/app.js"
