@@ -37,7 +37,11 @@ const answerSchema = new mongoose.Schema({
             type: String,
             required: false,
         }
-    }]
+    }],
+    date: {
+        type: Date,
+        default: new Date(),
+    }
 })
 
 const answer = new mongoose.model("answer", answerSchema);

@@ -1,0 +1,21 @@
+.section-answer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.answer {
+    margin-top: 1rem;
+}
+
+.answer h3 {
+    display: inline-block;
+    font-size: 1.2rem;
+    margin-right: .75rem;
+    margin-bottom: 8px;
+}
+
+.answer button {
+    background-color: rgb(30, 153, 30);
+    margin-top: 8px;
+}
