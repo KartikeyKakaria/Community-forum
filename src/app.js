@@ -88,6 +88,17 @@ app.get('/getQuestions/:topic', async (req, res) => {
     }
     res.send(rep);
 })
+app.get('/getAnswers/:questionId', async (req, res) => {
+    const { questionId } = req.params;
+    let rep;
+    try {
+        const result = await ANSWER.find({ questionId });
+        rep = new jsonData(true, result);
+    } catch (error) {
+        rep = new jsonData(false, { error });
+    }
+    res.send(rep);
+})
 
 app.get("/me", authUser, (req, res) => {
     console.log(req.user)
