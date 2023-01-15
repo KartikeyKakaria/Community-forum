@@ -66,7 +66,7 @@ app.get("/login", (req, res) => {
     res.render("login")
 })
 
-app.get('/getTopics', async(req, res) => {
+app.get('/getTopics', async (req, res) => {
     let rep;
     try {
         const topics = await TOPIC.find();
@@ -76,15 +76,15 @@ app.get('/getTopics', async(req, res) => {
     }
     res.send(rep);
 })
-app.get('/getQuestions/:topic', async(req,res)=>{
+app.get('/getQuestions/:topic', async (req, res) => {
     let rep;
-    try{
-        const questions = await QUESTION.find({topic:req.params.topic});
-        rep =  new jsonData(true, questions.sort((a,b)=>{
-            return b.answers-a.answers;
+    try {
+        const questions = await QUESTION.find({ topic: req.params.topic });
+        rep = new jsonData(true, questions.sort((a, b) => {
+            return b.answers - a.answers;
         }))
-    }catch(err){
-        rep =  new jsonData(false, {msg:err})
+    } catch (err) {
+        rep = new jsonData(false, { msg: err })
     }
     res.send(rep);
 })
@@ -95,17 +95,17 @@ app.get("/me", authUser, (req, res) => {
         user: req.user
     })
 })
-app.get("/topics/:name", authTopic, async(req, res) => {
+app.get("/topics/:name", authTopic, async (req, res) => {
     console.log(req.topic);
     res.render('topic', { topic: req.topic });
 })
-app.get("/questions/:quesId", authQues, async(req,res)=>{
+app.get("/questions/:quesId", authQues, async (req, res) => {
     console.log(req.question)
-    res.render('question',{question:req.question})
+    res.render('question', { question: req.question })
 })
 
 //logging out the user
-app.get("/logout", authUser, async(req, res) => {
+app.get("/logout", authUser, async (req, res) => {
     let rep;
     try {
         res.clearCookie("jwt")
@@ -119,7 +119,7 @@ app.get("/logout", authUser, async(req, res) => {
 })
 
 //Registering the user
-app.post('/register', async(req, res) => {
+app.post('/register', async (req, res) => {
     const data = req.body;
     let rep;
     if (data.name.length < 2 || data.name.length > 50) {
@@ -131,19 +131,19 @@ app.post('/register', async(req, res) => {
     } else {
         //code to push the user details into db
         const user = new USER({
-                name: data.name,
-                email: data.email,
-                address: data.address,
-                age: data.age,
-                number: data.number,
-                password: data.password
-            })
-            //code to generate a jwt token for user authentication
+            name: data.name,
+            email: data.email,
+            address: data.address,
+            age: data.age,
+            number: data.number,
+            password: data.password
+        })
+        //code to generate a jwt token for user authentication
         const token = await user.generateAuthToken();
         res.cookie("jwt", token, {
-                expires: new Date(Date.now() + 2628002880),
-            })
-            //
+            expires: new Date(Date.now() + 2628002880),
+        })
+        //
         const result = await user.save();
         if (result.name !== undefined) rep = new responseData(true, "Registered");
         else {
@@ -154,7 +154,7 @@ app.post('/register', async(req, res) => {
 })
 
 //logging the user in
-app.post('/signin', async(req, res) => {
+app.post('/signin', async (req, res) => {
     const data = req.body;
     let result, rep;
     if (data.idType == "email") {
@@ -182,7 +182,7 @@ app.post('/signin', async(req, res) => {
 })
 
 //editing user data
-app.post('/edit', authUser, async(req, res) => {
+app.post('/edit', authUser, async (req, res) => {
     const data = req.body;
     let rep;
     try {
@@ -216,7 +216,7 @@ app.post('/edit', authUser, async(req, res) => {
 })
 
 //changing user Password
-app.post('/changePassword', authUser, async(req, res) => {
+app.post('/changePassword', authUser, async (req, res) => {
     let rep;
     const data = req.body;
     const isMatch = await bcrypt.compare(data.oldPassword, req.user.password);
@@ -235,44 +235,44 @@ app.post('/changePassword', authUser, async(req, res) => {
 })
 
 //posting the user's question
-app.post('/ask',authUser,async(req,res)=>{
+app.post('/ask', authUser, async (req, res) => {
     let rep;
     const data = req.body;
-    try{
-        const question =  new QUESTION({
-            title:data.title,
-            description:data.description,
-            user:req.user.name,
-            topic:data.topicName,
+    try {
+        const question = new QUESTION({
+            title: data.title,
+            description: data.description,
+            user: req.user.name,
+            topic: data.topicName,
         })
         const result = await question.save();
-        if(result.title!==undefined){
+        if (result.title !== undefined) {
             rep = new jsonData(true, result)
-        }else{
+        } else {
             console.log("?")
-            rep = new jsonData(false, {msg:"We are sorry for the inconvenience caused"})
+            rep = new jsonData(false, { msg: "We are sorry for the inconvenience caused" })
         }
-    }catch(err){
+    } catch (err) {
         console.log(err)
-        rep = new jsonData(false,{msg:err})
+        rep = new jsonData(false, { msg: err })
     }
     console.log(rep);
     res.send(rep);
 })
 
-app.post('/answer',authUser, async(req,res)=>{
+app.post('/answer', authUser, async (req, res) => {
     let rep;
-    try{
-        const {answer, questionId} = req.body;
-        const {name} = req.user;
-        const postAnswer =  new ANSWER({
-            text:answer,
+    try {
+        const { answer, questionId } = req.body;
+        const { name } = req.user;
+        const postAnswer = new ANSWER({
+            text: answer,
             questionId,
-            user:name,
+            user: name,
         })
         const result = await postAnswer.save();
-        rep = new responseData(true,":)")
-    }catch(err){
+        rep = new jsonData(true, result)
+    } catch (err) {
         rep = new responseData(false, `${err}`)
     }
     res.send(rep)
