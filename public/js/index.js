@@ -18,9 +18,9 @@ class Params {
 function getInpValue(id) {
     return document.getElementById(id).value;
 }
-function randomColorRGB(){
-    const random = ()=> {return Math.floor((Math.random() * 250) + 100)}
-    return {r:random(),g:random(),b:random()}
+function randomColorRGB() {
+    const random = () => { return Math.floor((Math.random() * 250) + 100) }
+    return { r: random(), g: random(), b: random() }
 }
 function isEmpty(obj) {
     let result = false;
@@ -41,8 +41,8 @@ function isCookieThere() {
     if (includes(cookies, "jwt")) result = true;
     return result;
 }
-function shortenString(str, link){
-    return str.slice(0,158)+`<a style="color:white;text-decoration:none;" href=${link}>...</a>`
+function shortenString(str, link) {
+    return str.slice(0, 158) + `<a style="color:white;text-decoration:none;" href=${link}>...</a>`
 }
 function updateNavbar() {
     const links = document.querySelector('.links');
@@ -51,24 +51,24 @@ function updateNavbar() {
     }
 }
 
-function findTimeElapsed(date){
+function findTimeElapsed(date) {
     const currDate = new Date();
     const postDate = new Date(date);
-    const diff = currDate.getTime() -  postDate.getTime();
-    if(diff>31557600000){
-        return `${Math.floor(diff/31557600000)} year/s`;
-    }else if(diff>2629800000){
-        return `${Math.floor(diff/2629800000)} month/s`;
-    }else if(diff>604800000){
-        return `${Math.floor(diff/604800000)} week/s`;
-    }else if(diff>86400000){
-        return `${Math.floor(diff/86400000)} day/s`;
-    }else if(diff>3600000){
-        return `${Math.floor(diff/3600000)} hour/s`;
-    }else if(diff>60000){
-        return `${Math.floor(diff/60000)} minute/s`;
-    }else{
-        return `${Math.floor(diff/1000)} second/s`
+    const diff = currDate.getTime() - postDate.getTime();
+    if (diff > 31557600000) {
+        return `${Math.floor(diff / 31557600000)} year(s)`;
+    } else if (diff > 2629800000) {
+        return `${Math.floor(diff / 2629800000)} month(s)`;
+    } else if (diff > 604800000) {
+        return `${Math.floor(diff / 604800000)} week(s)`;
+    } else if (diff > 86400000) {
+        return `${Math.floor(diff / 86400000)} day(s)`;
+    } else if (diff > 3600000) {
+        return `${Math.floor(diff / 3600000)} hour(s)`;
+    } else if (diff > 60000) {
+        return `${Math.floor(diff / 60000)} minute(s)`;
+    } else {
+        return `${Math.floor(diff / 1000)} second(s)`
     }
 }
 

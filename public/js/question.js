@@ -1,24 +1,26 @@
 updateNavbar()
 const topicName = document.querySelector('h1').innerText;
 const submit = document.getElementById('submit');
-const displayQuestions = async()=>{
-        const questionDiv = document.querySelector('.questions');
-        await fetch(`/getQuestions/${topicName}`).then(rep=>rep.json())
-        .then(data=>{
-            if(data.success){
-                data.data.forEach(question=>{
-                    questionDiv.innerHTML+=`
+const displayQuestions = async () => {
+    const questionDiv = document.querySelector('.questions');
+    await fetch(`/getQuestions/${topicName}`).then(rep => rep.json())
+        .then(data => {
+            if (data.success) {
+                let str = "";
+                data.data.forEach(question => {
+                    str += `
                     <div class="question">
                         <a href="/questions/${question._id}" >${question.title}</a>
                         <p>Posted by ${question.user}: <span>${findTimeElapsed(question.date)}ago</span></p>
                     </div>
                     `
                 })
-            }else{
-                questionDiv.innerHTML =  data.data.msg;
+                questionDiv.innerHTML = str;
+            } else {
+                questionDiv.innerHTML = data.data.msg;
             }
         })
-        .catch(err=>questionDiv.innerHTML = err);
+        .catch(err => questionDiv.innerHTML = err);
 }
 displayQuestions();
 submit.addEventListener('click', e => {
@@ -44,7 +46,7 @@ submit.addEventListener('click', e => {
                         title: "Posted!",
                         text: "Your question was posted successfully",
                         icon: "success",
-                    }).then(()=>displayQuestions())
+                    }).then(() => displayQuestions())
                 } else {
                     swal({
                         title: "Error",
@@ -54,7 +56,7 @@ submit.addEventListener('click', e => {
                 }
             })
             .catch(err => {
-                window.location.href="/login"
+                window.location.href = "/login"
             });
     }
 })

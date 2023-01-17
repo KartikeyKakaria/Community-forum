@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/question.css">
+    <link rel="stylesheet" href="../css/answer.css">
     <script defer src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script defer src="../js/index.js"></script>
     <script defer src="../js/questionPage.js"></script>
     <script defer src="../js/answer.js"></script>
     <title>{{question.title}}</title>
 </head>
+
 <body>
     {{>navbar}}
     <div class="container">
@@ -25,6 +28,14 @@
             <textarea id="answer" cols="60" rows="8" class="form-input"></textarea><br>
             <button id="submit" class="btn hover-effect">Answer</button>
         </section>
+        <section class="section section-answers">
+            <h2 class="common-heading">Answers</h2>
+            <div class="answers">
+
+            </div>
+            {{!-- <div class="container comment"></div> --}}
+        </section>
     </div>
 </body>
+
 </html>
