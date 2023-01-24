@@ -3,29 +3,36 @@ const questionId = window.location.href.match(/questions\/\w*/)[0].replace("ques
 // Display Answers
 const displayAnswers = async () => {
     const answersDiv = document.querySelector(".answers");
-    fetch(`/getAnswers/${questionId}`)
-        .then(rep => rep.json())
-        .then(data => {
-            if (data.success) {
-                let str = ``;
-                if (data.data.length > 0) {
-                    data.data.forEach(answer => {
-                        str += `
-                        <div class="answer">
-                            <h3>${answer.user}</h3> <span>${findTimeElapsed(answer.date)} ago</span>
-                            <p>${answer.text}</p>
-                            <button class="btn hover-effect">Show Replies</button>
-                        </div>
-                        `
-                    })
-                } else {
-                    str = `<h2>No Answers :(, Maybe you can Answer?</h2>`
-                }
-                answersDiv.innerHTML = str;
-            } else { answersDiv.innerHTML = `<h2>${data.data.error}</h2>` }
-        }).catch(err => answersDiv.innerHTML = `<h2>${err}</h2>`)
+    const request = await fetch(`/getAnswers/${questionId}`);
+    const data = await request.json();
+    console.log(data)
+
+    return new Promise((resolve,reject)=>{
+        if (data.success) {
+            let str = ``;
+            if (data.data.length > 0) {
+                data.data.forEach(answer => {
+                    str += `
+                            <div class="answer">
+                                <h3>${answer.user}</h3> <span>${findTimeElapsed(answer.date)} ago</span>
+                                <p>${answer.text}</p>
+                                <button class="btn hover-effect">Show Replies</button>
+                            </div>
+                            <div class="comments container">
+                                <input id=${answer._id} class="comment-input" placeholder="Enter comment">
+                                <button class="comment" data-id=${answer._id}>Post</button>
+                            </div>
+                            `
+                })
+            } else {
+                str = `<h2>No Answers :(, Maybe you can Answer?</h2>`
+            }
+            answersDiv.innerHTML = str;
+            resolve();
+        } else { answersDiv.innerHTML = `<h2>${data.data.error}</h2>` ; reject() }
+    })
 }
-(async () => await displayAnswers())();
+
 
 // Post Answer
 const submit = document.getElementById("submit");

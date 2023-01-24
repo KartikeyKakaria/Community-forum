@@ -35,7 +35,7 @@ const answerSchema = new mongoose.Schema({
         },
         text: {
             type: String,
-            required: false,
+            required:true,
         },
         date: {
             type:Date,
@@ -48,13 +48,13 @@ const answerSchema = new mongoose.Schema({
     }
 })
 
-answerSchema.methods.addComment = async function(comment){
-    try{
-        this.comments = this.comments.concat(comment);
-        await this.save();
-        return true;
-    }catch(err){ return error}
-}
+// answerSchema.methods.addComment = async function(comment){
+//     try{
+//         this.comments = this.comments.concat(comment);
+//         await this.save();
+//         return true;
+//     }catch(err){ return error; }
+// }
 
 const answer = new mongoose.model("answer", answerSchema);
 module.exports = answer;

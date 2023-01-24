@@ -175,8 +175,6 @@ app.post('/signin', async (req, res) => {
     }
     if (result.length == 1) {
         const isValid = await bcrypt.compare(data.password, result[0].password);
-        console.log(result[0].password)
-        console.log(isValid, data.password)
         if (isValid) {
             res.cookie("jwt", result[0].tokens[0].token, {
                 expires: new Date(Date.now() + 2628002880),
@@ -290,16 +288,22 @@ app.post('/answer', authUser, async (req, res) => {
 })
 
 app.post("/comment", authUser, async (req, res) => {
-    try{
+    let rep;
+    try {
         const { comment, answerId } = req.body;
-        const answer = await ANSWER.find({_id:answerId})
-        const result = await answer.addComment({
-            user:req.user.name,
-            text:comment
+        const answer = await ANSWER.find({ _id: answerId })
+        await ANSWER.updateOne({_id: answerId},{
+            $set:{comments:answer[0].comments.concat({
+                user:req.user.name,
+                text:comment
+            })}
         })
-    }catch(err){
+        rep = new responseData(true, "Commented")
+    } catch (err) {
         console.log(err);
+        rep = new responseData(false, err.toString())
     }
+    res.send(rep)
 })
 
 app.listen(port, (err) => console.log(`listening at port ${port}`))
