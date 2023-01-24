@@ -289,4 +289,17 @@ app.post('/answer', authUser, async (req, res) => {
     res.send(rep)
 })
 
+app.post("/comment", authUser, async (req, res) => {
+    try{
+        const { comment, answerId } = req.body;
+        const answer = await ANSWER.find({_id:answerId})
+        const result = await answer.addComment({
+            user:req.user.name,
+            text:comment
+        })
+    }catch(err){
+        console.log(err);
+    }
+})
+
 app.listen(port, (err) => console.log(`listening at port ${port}`))

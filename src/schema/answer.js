@@ -36,6 +36,10 @@ const answerSchema = new mongoose.Schema({
         text: {
             type: String,
             required: false,
+        },
+        date: {
+            type:Date,
+            default: new Date(),
         }
     }],
     date: {
@@ -43,6 +47,14 @@ const answerSchema = new mongoose.Schema({
         default: new Date(),
     }
 })
+
+answerSchema.methods.addComment = async function(comment){
+    try{
+        this.comments = this.comments.concat(comment);
+        await this.save();
+        return true;
+    }catch(err){ return error}
+}
 
 const answer = new mongoose.model("answer", answerSchema);
 module.exports = answer;
